@@ -1,14 +1,9 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto;
 
-import jakarta.activation.DataHandler;
-
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
-
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
-
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain.Enrollment;
-
-
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 public class EnrollmentDto {
     private Integer id;
@@ -24,7 +19,7 @@ public class EnrollmentDto {
     public EnrollmentDto(Enrollment enrollment, boolean deepCopyActivity){
         setId(enrollment.getId());
         setMotivation(enrollment.getMotivation());
-        setEnrollmentDateTime(DataHandler.toISOString(enrollment.getEnrollmentDateTime()));
+        setEnrollmentDateTime(DateHandler.toISOString(enrollment.getEnrollmentDateTime()));
         setVolunteer(enrollment.getVolunteer());
 
         if (deepCopyActivity && (enrollment.getActivity() != null)) {

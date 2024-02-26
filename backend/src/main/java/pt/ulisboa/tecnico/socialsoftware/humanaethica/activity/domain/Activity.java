@@ -5,6 +5,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain.Enrollment;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 import java.time.LocalDateTime;
@@ -41,6 +42,9 @@ public class Activity {
 
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
+
+    @OneToMany(mappedBy = "activity", orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     public Activity() {
     }
@@ -231,6 +235,22 @@ public class Activity {
 
     public Institution getInstitution() {
         return institution;
+    }
+
+    public void setEnrollments(List<Enrollment> enrollments) {
+        this.enrollments = enrollments;
+    }
+
+    public List<Enrollment> getEnrollments() {
+        return enrollments;
+    }
+
+    public void addEnrollment(Enrollment enrollment) {
+        this.enrollments.add(enrollment);
+    }
+
+    public void removeEnrollment(Enrollment enrollment) {
+        this.enrollments.remove(enrollment);
     }
 
     private void verifyInvariants() {
