@@ -46,7 +46,9 @@ public enum ErrorMessage {
     ENROLLMENT_INVALID_DATE("Date format for %s is invalid"),
     ENROLLMENT_MOTIVATION_AT_LEAST_TEN_CHARACTERS("Enrollment motivation must be at least 10 characters"),
     ENROLLMENT_TIME_BEFORE_DEADLINE("Enrollment time must be before application deadline"),
-    ENROLLMENT_VOLUNTEER_ONCE_PER_ACTIVITY("Volunteers may only enroll once per activity");
+    ENROLLMENT_VOLUNTEER_ONCE_PER_ACTIVITY("Volunteers may only enroll once per activity"),
+
+    MEMBER_NOT_IN_ACTIVITY_INSTITUTION("Must be member of institution to see institution activity's enrollments");
 
     public final String label;
 

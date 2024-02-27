@@ -38,7 +38,6 @@ public class Enrollment {
         setMotivation(enrollmentDto.getMotivation());
         setEnrollmentDateTime(DateHandler.now());
 
-
         verifyInvariants();
     }
 
