@@ -39,7 +39,14 @@ public enum ErrorMessage {
     ACTIVITY_ALREADY_APPROVED("Activity is already approved with name %s"),
     ACTIVITY_ALREADY_EXISTS("Activity already exists in database"),
     ACTIVITY_ALREADY_SUSPENDED("Activity is already suspended with name %s"),
-    ACTIVITY_ALREADY_REPORTED("Activity is already reported with name %s");
+    ACTIVITY_ALREADY_REPORTED("Activity is already reported with name %s"),
+
+    // Enrollment
+    ENROLLMENT_MOTIVATION_INVALID("Enrollment Motivation: %s, is not valid"),
+    ENROLLMENT_INVALID_DATE("Date format for %s is invalid"),
+    ENROLLMENT_MOTIVATION_AT_LEAST_TEN_CHARACTERS("Enrollment motivation must be at least 10 characters"),
+    ENROLLMENT_TIME_BEFORE_DEADLINE("Enrollment time must be before application deadline"),
+    ENROLLMENT_VOLUNTEER_ONCE_PER_ACTIVITY("Volunteers may only enroll once per activity");
 
     public final String label;
 
