@@ -15,6 +15,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.repository.Ins
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.repository.ActivityRepository;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Member;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.repository.UserRepository;
 
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.*;
@@ -36,18 +37,26 @@ public class EnrollmentService {
     InstitutionRepository institutionRepository;
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public List<EnrollmentDto> getEnrollmentsInActivity(Integer activityId, Integer userId) {
-        if (activityId == null) throw new HEException(ACTIVITY_NOT_FOUND);
+    public EnrollmentDto createEnrollment(Integer userId, Integer activityId, EnrollmentDto enrollmentDto) {
         if (userId == null) throw new HEException(USER_NOT_FOUND);
+        if (activityId == null) throw new HEException(ACTIVITY_NOT_FOUND);
 
-        Member member = (Member) userRepository.findById(userId).orElseThrow(() -> new HEException(USER_NOT_FOUND, userId));
+        Volunteer volunteer = (Volunteer) userRepository.findById(userId).orElseThrow(() -> new HEException(USER_NOT_FOUND, userId));
 
         Activity activity = activityRepository.findById(activityId).orElseThrow(() -> new HEException(ACTIVITY_NOT_FOUND, activityId));
 
-        Institution memberInstitution = member.getInstitution();
-        Institution activityInstitution = activity.getInstitution();
+        Enrollment enrollment = new Enrollment(enrollmentDto, activity, volunteer);
+        enrollmentRepository.save(enrollment);
 
-        if (!memberInstitution.equals(activityInstitution)) throw new HEException(MEMBER_NOT_IN_ACTIVITY_INSTITUTION);
+        return new EnrollmentDto(enrollment, true);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public List<EnrollmentDto> getEnrollmentsByActivity(Integer activityId) {
+        if (activityId == null) throw new HEException(ACTIVITY_NOT_FOUND);
+
+        // This query returns Enrollment instead EnrollmentDto. How can it be used?
+        List<Enrollment> enrollments = enrollmentRepository.getEnrollmentsByActivityId(activityId);
 
         return enrollmentRepository.findAll().stream()
                 .map(enrollment-> new EnrollmentDto(enrollment,true))

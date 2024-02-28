@@ -15,7 +15,6 @@ public class EnrollmentDto {
     public EnrollmentDto(){
     }
 
-
     public EnrollmentDto(Enrollment enrollment, boolean deepCopyActivity){
         setId(enrollment.getId());
         setMotivation(enrollment.getMotivation());
@@ -26,7 +25,6 @@ public class EnrollmentDto {
             setActivity(new ActivityDto(enrollment.getActivity(), false));
         }
     }
-
 
     public Integer getId() {
         return id;
@@ -44,8 +42,6 @@ public class EnrollmentDto {
         this.motivation = motivation;
     }
 
-
-
     public String getEnrollmentDateTime() {
         return enrollmentDateTime;
     }
@@ -53,8 +49,6 @@ public class EnrollmentDto {
     public void setEnrollmentDateTime(String enrollmentDateTime) {
         this.enrollmentDateTime = enrollmentDateTime;
     }
-
-
 
     public ActivityDto getActivity() {
         return activity;
