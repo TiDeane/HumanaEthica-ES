@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain.Enrollment;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.dto.UserDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 public class EnrollmentDto {
@@ -11,7 +12,8 @@ public class EnrollmentDto {
     private String enrollmentDateTime;
 
     private ActivityDto activity;
-    private Volunteer volunteer;
+    private UserDto volunteer;
+
     public EnrollmentDto(){
     }
 
@@ -19,7 +21,7 @@ public class EnrollmentDto {
         setId(enrollment.getId());
         setMotivation(enrollment.getMotivation());
         setEnrollmentDateTime(DateHandler.toISOString(enrollment.getEnrollmentDateTime()));
-        setVolunteer(enrollment.getVolunteer());
+        setVolunteer(new UserDto(enrollment.getVolunteer()));
 
         if (deepCopyActivity && (enrollment.getActivity() != null)) {
             setActivity(new ActivityDto(enrollment.getActivity(), false));
@@ -58,11 +60,11 @@ public class EnrollmentDto {
         this.activity = activity;
     }
 
-    public Volunteer getVolunteer(){
+    public UserDto getVolunteer(){
         return volunteer;
     }
 
-    public void setVolunteer(Volunteer volunteer){
+    public void setVolunteer(UserDto volunteer){
         this.volunteer = volunteer;
     }
 

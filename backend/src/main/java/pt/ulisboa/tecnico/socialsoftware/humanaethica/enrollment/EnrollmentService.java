@@ -55,11 +55,10 @@ public class EnrollmentService {
     public List<EnrollmentDto> getEnrollmentsByActivity(Integer activityId) {
         if (activityId == null) throw new HEException(ACTIVITY_NOT_FOUND);
 
-        // This query returns Enrollment instead EnrollmentDto. How can it be used?
         List<Enrollment> enrollments = enrollmentRepository.getEnrollmentsByActivityId(activityId);
 
-        return enrollmentRepository.findAll().stream()
-                .map(enrollment-> new EnrollmentDto(enrollment,true))
+        return enrollments.stream()
+                .map(enrollment -> new EnrollmentDto(enrollment, true))
                 .sorted(Comparator.comparing(enrollmentDto -> enrollmentDto.getVolunteer().getName(), String.CASE_INSENSITIVE_ORDER))
                 .toList();
     }

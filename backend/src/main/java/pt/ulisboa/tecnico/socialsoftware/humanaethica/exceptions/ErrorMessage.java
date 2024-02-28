@@ -42,6 +42,7 @@ public enum ErrorMessage {
     ACTIVITY_ALREADY_REPORTED("Activity is already reported with name %s"),
 
     // Enrollment
+    ENROLLMENT_NOT_FOUND("Enrollment not found with id %d"),
     ENROLLMENT_MOTIVATION_INVALID("Enrollment Motivation: %s, is not valid"),
     ENROLLMENT_INVALID_DATE("Date format for %s is invalid"),
     ENROLLMENT_MOTIVATION_AT_LEAST_TEN_CHARACTERS("Enrollment motivation must be at least 10 characters"),
