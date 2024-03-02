@@ -50,7 +50,14 @@ public enum ErrorMessage {
     ENROLLMENT_VOLUNTEER_ONCE_PER_ACTIVITY("Volunteers may only enroll once per activity"),
 
     ENROLLMENT_USER_MUST_BE_VOLUNTEER("user must be a Volunteer to enroll on an activity"),
-    MEMBER_NOT_IN_ACTIVITY_INSTITUTION("User must be member of institution to see institution activity's enrollments");
+    MEMBER_NOT_IN_ACTIVITY_INSTITUTION("User must be member of institution to see institution activity's enrollments"),
+    // Participation
+    PARTICIPATION_NOT_FOUND("Participation not found with id %d"),
+    PARTICIPATION_RATING_INVALID("Participation Rating, is not valid"),
+    PARTICIPATION_INVALID_DATE("Date format for %s is invalid"),
+    PARTICIPATION_TOTAL_PARTICIPANTS_GREATER_THAN_LIMIT("Number of total participants: %d, is greater than Activity Limit"),
+    PARTICIPATION_TIME_AFTER_DEADLINE("Volunteer can only be placed after application deadline"),
+    PARTICIPATION_VOLUNTEER_ONCE_PER_ACTIVITY("Volunteers may only participate once per activity");
 
     public final String label;
 

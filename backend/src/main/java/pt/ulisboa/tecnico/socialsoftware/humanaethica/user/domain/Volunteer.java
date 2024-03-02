@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.domain.AuthUser;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain.Enrollment;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain.Participation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,8 @@ public class Volunteer extends User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "volunteer", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Enrollment> enrollments = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "volunteer", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Participation> participations = new ArrayList<>();
     public Volunteer() {
     }
 
@@ -30,7 +33,12 @@ public class Volunteer extends User {
         return enrollments;
     }
 
-    public void addEnrollment(Enrollment enrollment){
+    public void addEnrollment(Enrollment enrollment) {
         enrollments.add(enrollment);
+    }
+    public List<Participation> getParticipations() { return participations; }
+
+    public void addParticipation(Participation participation) {
+        this.participations.add(participation);
     }
 }
