@@ -63,6 +63,7 @@ public class Enrollment {
 
     public void setVolunteer(Volunteer volunteer) {
         this.volunteer = volunteer;
+        this.volunteer.addEnrollment(this);
     }
 
     public Volunteer getVolunteer(){

@@ -27,4 +27,8 @@ public class Volunteer extends User {
     }
 
     public List<Enrollment> getEnrollments() { return enrollments; }
+
+    public void addEnrollment(Enrollment enrollment){
+        enrollments.add(enrollment);
+    }
 }

@@ -84,6 +84,13 @@ class SpockTest extends Specification {
     public static final String USER_1_TOKEN = "1a2b3c"
     public static final String USER_2_TOKEN = "c3b2a1"
 
+    //Enrollment
+    public static final String MOTIVATION_1 = "I want to be apply because i am good"
+    public static final String MOTIVATION_2 = "I want to apply because my mother wants me too"
+    public static final String MOTIVATION_3 = "Please accept me! My father is rich"
+    public static final String SHORT_MOTIVATION_1 = "I am good"
+    public static final String SHORT_MOTIVATION_2 = "LOL"
+
     @Autowired
     AuthUserService authUserService
 
