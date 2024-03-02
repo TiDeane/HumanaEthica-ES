@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain.Participation;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
@@ -41,6 +42,9 @@ public class Activity {
 
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
+
+    @OneToMany(mappedBy = "activity", orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Participation> participations = new ArrayList<>();
 
     public Activity() {
     }
@@ -232,6 +236,23 @@ public class Activity {
     public Institution getInstitution() {
         return institution;
     }
+
+    public void setParticipations(List<Participation> participations) {
+        this.participations = participations;
+    }
+
+    public List<Participation> getParticipations() {
+        return participations;
+    }
+
+    public void addParticipation(Participation participation) {
+        this.participations.add(participation);
+    }
+
+    public void removeParticipation(Participation participation) {
+        this.participations.remove(participation);
+    }
+
 
     private void verifyInvariants() {
         nameIsRequired();

@@ -39,7 +39,17 @@ public enum ErrorMessage {
     ACTIVITY_ALREADY_APPROVED("Activity is already approved with name %s"),
     ACTIVITY_ALREADY_EXISTS("Activity already exists in database"),
     ACTIVITY_ALREADY_SUSPENDED("Activity is already suspended with name %s"),
-    ACTIVITY_ALREADY_REPORTED("Activity is already reported with name %s");
+    ACTIVITY_ALREADY_REPORTED("Activity is already reported with name %s"),
+
+    // Participation
+    PARTICIPATION_NOT_FOUND("Participation not found with id %d"),
+    PARTICIPATION_RATING_INVALID("Participation Rating, is not valid"),
+    PARTICIPATION_INVALID_DATE("Date format for %s is invalid"),
+    PARTICIPATION_TOTAL_PARTICIPANTS_GREATER_THAN_LIMIT("Number of total participants: %d, is greater than Activity Limit"),
+    PARTICIPATION_TIME_AFTER_DEADLINE("Volunteer can only be placed after application deadline"),
+    PARTICIPATION_VOLUNTEER_ONCE_PER_ACTIVITY("Volunteers may only participate once per activity"),
+
+    MEMBER_NOT_IN_ACTIVITY_INSTITUTION("Must be member of institution to see institution activity's enrollments");
 
     public final String label;
 
