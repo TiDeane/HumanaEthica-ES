@@ -20,6 +20,7 @@ import java.time.LocalDateTime
 
 class CreateEnrollmentMethodTest extends SpockTest{
     Activity activity = Mock()
+    Activity activity2 = Mock()
     Volunteer volunteer = Mock()
     Enrollment otherEnrollment = Mock()
     def enrollmentDto
@@ -31,16 +32,30 @@ class CreateEnrollmentMethodTest extends SpockTest{
         enrollmentDto.enrollmentDateTime = NOW
     }
 
-    @Unroll
-    def "create enrollment with volunteer and activity has another enrollment"(){
+    def "create enrollment and volunteer is enrolled in another activity"() {
+        given:
+        otherEnrollment.getActivity() >> activity2
+        otherEnrollment.getVolunteer() >> volunteer
+        activity.getApplicationDeadline() >> IN_ONE_DAY
+        volunteer.getEnrollments() >> [otherEnrollment]
+
+        when:
+        def result = new Enrollment(enrollmentDto, activity, volunteer)
+
+        then: "check result"
+        result.getActivity() == activity
+        result.getVolunteer() == volunteer
+        result.getMotivation() == MOTIVATION_1
+        and: "invocations"
+        1 * activity.addEnrollment(_)
+        1 * volunteer.addEnrollment(_)
+    }
+    
+    def "create enrollment with volunteer who is already enrolled in that activity"(){
         given:
         otherEnrollment.getActivity() >> activity
         otherEnrollment.getVolunteer() >> volunteer
         volunteer.getEnrollments() >> [otherEnrollment]
-        and: "an enrollment dto"
-        enrollmentDto = new EnrollmentDto()
-        enrollmentDto.enrollmentDateTime = NOW
-        enrollmentDto.motivation = MOTIVATION_2
 
         when:
         new Enrollment(enrollmentDto, activity, volunteer)
