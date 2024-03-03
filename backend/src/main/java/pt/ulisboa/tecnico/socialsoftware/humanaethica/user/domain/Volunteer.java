@@ -26,7 +26,9 @@ public class Volunteer extends User {
         super(name, Role.VOLUNTEER, state);
     }
 
-    public List<Enrollment> getEnrollments() { return enrollments; }
+    public List<Enrollment> getEnrollments() {
+        return enrollments;
+    }
 
     public void addEnrollment(Enrollment enrollment){
         enrollments.add(enrollment);

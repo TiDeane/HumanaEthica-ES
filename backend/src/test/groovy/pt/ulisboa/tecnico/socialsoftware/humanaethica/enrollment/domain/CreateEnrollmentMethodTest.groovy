@@ -34,15 +34,16 @@ class CreateEnrollmentMethodTest extends SpockTest{
     @Unroll
     def "create enrollment with volunteer and activity has another enrollment"(){
         given:
-        otherEnrollment.getActivity() >> [activity]
-        otherEnrollment.getVolunteer() >> [volunteer]
+        otherEnrollment.getActivity() >> activity
+        otherEnrollment.getVolunteer() >> volunteer
+        volunteer.getEnrollments() >> [otherEnrollment]
         and: "an enrollment dto"
         enrollmentDto = new EnrollmentDto()
         enrollmentDto.enrollmentDateTime = NOW
         enrollmentDto.motivation = MOTIVATION_2
 
         when:
-        new Enrollment(activity, volunteer, enrollmentDto)
+        new Enrollment(enrollmentDto, activity, volunteer)
 
         then:
         def error = thrown(HEException)
@@ -57,7 +58,7 @@ class CreateEnrollmentMethodTest extends SpockTest{
         enrollmentDto.setEnrollmentDateTime(DateHandler.toISOString(NOW))
 
         when:
-        new Enrollment(activity, volunteer, enrollmentDto)
+        new Enrollment(enrollmentDto, activity, volunteer)
 
         then:
         def error = thrown(HEException)

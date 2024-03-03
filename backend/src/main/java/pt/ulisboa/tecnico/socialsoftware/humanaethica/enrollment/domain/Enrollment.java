@@ -63,7 +63,7 @@ public class Enrollment {
 
     public void setVolunteer(Volunteer volunteer) {
         this.volunteer = volunteer;
-        this.volunteer.addEnrollment(this);
+        volunteer.addEnrollment(this);
     }
 
     public Volunteer getVolunteer(){
@@ -114,7 +114,7 @@ public class Enrollment {
 
     private void enrollOncePerActivity() {
         for (Enrollment enrollment : this.volunteer.getEnrollments()) {
-            if (enrollment.getActivity() == activity) {
+            if (enrollment != this && enrollment.getActivity() == activity) {
                 throw new HEException(ENROLLMENT_VOLUNTEER_ONCE_PER_ACTIVITY);
             }
         }
