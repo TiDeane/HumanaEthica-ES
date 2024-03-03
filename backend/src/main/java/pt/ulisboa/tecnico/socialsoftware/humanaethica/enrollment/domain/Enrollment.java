@@ -21,6 +21,8 @@ public class Enrollment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String motivation;
+
+    @Column(name = "enrollment_date_time")
     private LocalDateTime enrollmentDateTime;
 
     @ManyToOne
@@ -43,7 +45,6 @@ public class Enrollment {
 
     public void update(EnrollmentDto enrollmentDto) {
         setMotivation(enrollmentDto.getMotivation());
-        setEnrollmentDateTime(DateHandler.toLocalDateTime(enrollmentDto.getEnrollmentDateTime()));
 
         verifyInvariants();
     }
@@ -76,6 +77,7 @@ public class Enrollment {
 
     public void setActivity(Activity activity) {
         this.activity = activity;
+        activity.addEnrollment(this);
     }
 
     public LocalDateTime getEnrollmentDateTime() {
