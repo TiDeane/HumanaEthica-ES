@@ -48,7 +48,7 @@ public class EnrollmentService {
         Enrollment enrollment = new Enrollment(enrollmentDto, activity, volunteer);
         enrollmentRepository.save(enrollment);
 
-        return new EnrollmentDto(enrollment, true);
+        return new EnrollmentDto(enrollment, true, true);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -58,7 +58,7 @@ public class EnrollmentService {
         List<Enrollment> enrollments = enrollmentRepository.getEnrollmentsByActivityId(activityId);
 
         return enrollments.stream()
-                .map(enrollment -> new EnrollmentDto(enrollment, true))
+                .map(enrollment -> new EnrollmentDto(enrollment, true, true))
                 .sorted(Comparator.comparing(enrollmentDto -> enrollmentDto.getVolunteer().getName(), String.CASE_INSENSITIVE_ORDER))
                 .toList();
     }

@@ -17,14 +17,17 @@ public class EnrollmentDto {
     public EnrollmentDto(){
     }
 
-    public EnrollmentDto(Enrollment enrollment, boolean deepCopyActivity){
+    public EnrollmentDto(Enrollment enrollment, boolean deepCopyActivity, boolean deepCopyVolunteer){
         setId(enrollment.getId());
         setMotivation(enrollment.getMotivation());
         setEnrollmentDateTime(DateHandler.toISOString(enrollment.getEnrollmentDateTime()));
-        setVolunteer(new UserDto(enrollment.getVolunteer()));
 
         if (deepCopyActivity && (enrollment.getActivity() != null)) {
             setActivity(new ActivityDto(enrollment.getActivity(), false));
+        }
+
+        if (deepCopyVolunteer && (enrollment.getVolunteer() != null)) {
+            setVolunteer(new UserDto(enrollment.getVolunteer()));
         }
     }
 
