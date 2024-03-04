@@ -102,7 +102,7 @@ public class Participation {
 
     private void volunteerCanOnlyParticipateOnce() {
         for (Participation participation : this.volunteer.getParticipations()) {
-            if (participation.getActivity() == activity) {
+            if (participation != this && participation.getActivity() == activity) {
                  throw new HEException(PARTICIPATION_VOLUNTEER_ONCE_PER_ACTIVITY);
             }
         }
