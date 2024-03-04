@@ -57,7 +57,12 @@ public enum ErrorMessage {
     PARTICIPATION_INVALID_DATE("Date format for %s is invalid"),
     PARTICIPATION_TOTAL_PARTICIPANTS_GREATER_THAN_LIMIT("Number of total participants: %d, is greater than Activity Limit"),
     PARTICIPATION_TIME_AFTER_DEADLINE("Volunteer can only be placed after application deadline"),
-    PARTICIPATION_VOLUNTEER_ONCE_PER_ACTIVITY("Volunteers may only participate once per activity");
+    PARTICIPATION_VOLUNTEER_ONCE_PER_ACTIVITY("Volunteers may only participate once per activity"),
+    // Assessment
+    ASSESSMENT_NOT_FOUND("Assessment not found with id %d"),
+    ASSESSMENT_REVIEW_SHOULD_HAVE_AT_LEAST_TEN_CHARACTERS("Review should have at least ten characters"),
+    ASSESSMENT_VOLUNTEER_ONLY_REIEWS_ONE_TIME_AN_INSTITUTION("Volunteer can't review more than one time an institution"),
+    ASSESSMENT_INSTITUTION_MUST_HAVE_AN_ACTIVITY_CONLUDED("Institution must have an activity concluded to be assessed");
 
     public final String label;
 

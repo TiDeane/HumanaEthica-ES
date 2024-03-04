@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain;
 import jakarta.persistence.*;
 import org.springframework.security.crypto.keygen.KeyGenerators;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain.Assessment;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Member;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
@@ -37,6 +38,9 @@ public class Institution {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "institution", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Member> members = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "institution", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Assessment> assessments = new ArrayList<>();
+
     private LocalDateTime tokenGenerationDate;
 
     @ManyToMany(mappedBy = "institutions", fetch = FetchType.LAZY)
@@ -44,6 +48,7 @@ public class Institution {
 
     @OneToMany(mappedBy = "institution", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Activity> activities = new ArrayList<>();
+
 
     public Institution() {
     }
@@ -164,10 +169,17 @@ public class Institution {
         return activities;
     }
 
+    public List<Assessment> getAssessments() {
+        return assessments;
+    }
+
     public void addActivity(Activity activity) {
         this.activities.add(activity);
     }
 
+    public void addAssessment(Assessment assessment) {
+        this.assessments.add(assessment);
+    }
     public String generateConfirmationToken() {
         String token = KeyGenerators.string().generateKey();
         setTokenGenerationDate(DateHandler.now());
