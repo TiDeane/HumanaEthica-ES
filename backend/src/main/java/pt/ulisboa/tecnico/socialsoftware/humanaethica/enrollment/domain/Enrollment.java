@@ -1,9 +1,7 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain;
 
 import jakarta.persistence.*;
-import org.apache.catalina.User;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
@@ -104,7 +102,7 @@ public class Enrollment {
 
     private void enrollmentDateTimeIsRequired() {
         if (this.enrollmentDateTime == null) {
-            throw new HEException(ENROLLMENT_INVALID_DATE, "enrollment date time");
+            throw new HEException(ENROLLMENT_DATE_TIME_INVALID, "enrollment date time");
         }
     }
 

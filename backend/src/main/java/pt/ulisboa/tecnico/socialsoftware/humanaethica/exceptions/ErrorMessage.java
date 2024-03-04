@@ -43,8 +43,8 @@ public enum ErrorMessage {
 
     // Enrollment
     ENROLLMENT_NOT_FOUND("Enrollment not found with id %d"),
-    ENROLLMENT_MOTIVATION_INVALID("Enrollment Motivation: %s, is not valid"),
-    ENROLLMENT_INVALID_DATE("Date format for %s is invalid"),
+    ENROLLMENT_MOTIVATION_INVALID("Enrollment motivation %s is not valid"),
+    ENROLLMENT_DATE_TIME_INVALID("Date format for %s is invalid"),
     ENROLLMENT_MOTIVATION_AT_LEAST_TEN_CHARACTERS("Enrollment motivation must be at least 10 characters"),
     ENROLLMENT_TIME_BEFORE_DEADLINE("Enrollment time must be before application deadline"),
     ENROLLMENT_VOLUNTEER_ONCE_PER_ACTIVITY("Volunteers may only enroll once per activity"),
