@@ -39,7 +39,13 @@ public enum ErrorMessage {
     ACTIVITY_ALREADY_APPROVED("Activity is already approved with name %s"),
     ACTIVITY_ALREADY_EXISTS("Activity already exists in database"),
     ACTIVITY_ALREADY_SUSPENDED("Activity is already suspended with name %s"),
-    ACTIVITY_ALREADY_REPORTED("Activity is already reported with name %s");
+    ACTIVITY_ALREADY_REPORTED("Activity is already reported with name %s"),
+
+    // Assessment
+    ASSESSMENT_NOT_FOUND("Assessment not found with id %d"),
+    ASSESSMENT_REVIEW_SHOULD_HAVE_AT_LEAST_TEN_CHARACTERS("Review should have at least ten characters"),
+    ASSESSMENT_VOLUNTEER_ONLY_REIEWS_ONE_TIME_AN_INSTITUTION("Volunteer can't review more than one time an institution"),
+    ASSESSMENT_INSTITUTION_MUST_HAVE_AN_ACTIVITY_CONLUDED("Institution must have an activity concluded to be assessed");
 
     public final String label;
 
