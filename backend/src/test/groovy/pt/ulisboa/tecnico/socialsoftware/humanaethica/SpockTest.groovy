@@ -87,6 +87,13 @@ class SpockTest extends Specification {
     public static final String USER_1_TOKEN = "1a2b3c"
     public static final String USER_2_TOKEN = "c3b2a1"
 
+    // Participation
+
+    public static final Integer RATING_1 = 7
+    public static final Integer RATING_2 = 5
+    public static final Integer RATING_3 = 10
+
+
     @Autowired
     AuthUserService authUserService
 
