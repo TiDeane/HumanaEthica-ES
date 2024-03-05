@@ -74,6 +74,8 @@ public class Participation {
         volunteer.addParticipation(this);
     }
 
+    public Volunteer getVolunteer() { return volunteer; }
+
     private void verifyInvariants() {
         ratingIsRequired();
         acceptanceDateIsRequired();
