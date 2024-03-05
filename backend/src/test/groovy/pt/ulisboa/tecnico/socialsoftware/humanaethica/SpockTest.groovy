@@ -12,6 +12,8 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.dto.AuthPasswordDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.repository.AuthUserRepository
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.demo.DemoService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.demo.DemoUtils
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.EnrollmentService
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.repository.EnrollmentRepository
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.UserApplicationalService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.UserService
@@ -23,6 +25,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.repository.Activi
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.ActivityService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.repository.ThemeRepository
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.ThemeService
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto.EnrollmentDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.Mailer
 import spock.lang.Specification
@@ -83,13 +86,6 @@ class SpockTest extends Specification {
     public static final String USER_2_PASSWORD = "4321@7877578"
     public static final String USER_1_TOKEN = "1a2b3c"
     public static final String USER_2_TOKEN = "c3b2a1"
-
-    //Enrollment
-    public static final String MOTIVATION_1 = "I want to be apply because i am good"
-    public static final String MOTIVATION_2 = "I want to apply because my mother wants me too"
-    public static final String MOTIVATION_3 = "Please accept me! My father is rich"
-    public static final String SHORT_MOTIVATION_1 = "I am good"
-    public static final String SHORT_MOTIVATION_2 = "LOL"
 
     @Autowired
     AuthUserService authUserService
@@ -221,6 +217,27 @@ class SpockTest extends Specification {
         activityDto
     }
 
+    // enrollment
+
+    public static final String MOTIVATION_1 = "I want to be apply because i am good"
+    public static final String MOTIVATION_2 = "I want to apply because my mother wants me too"
+    public static final String MOTIVATION_3 = "Please accept me! My father is rich"
+    public static final String SHORT_MOTIVATION_1 = "I am good"
+    public static final String SHORT_MOTIVATION_2 = "LOL"
+
+    @Autowired
+    EnrollmentRepository enrollmentRepository
+
+    @Autowired
+    EnrollmentService enrollmentService
+
+    protected EnrollmentDto createEnrollmentDto(motivation) {
+        def enrollmentDto = new EnrollmentDto()
+        enrollmentDto.setMotivation(motivation)
+        enrollmentDto.setEnrollmentDateTime(DateHandler.toISOString(NOW))
+        enrollmentDto
+    }
+
     // clean database
 
     def deleteAll() {
@@ -230,7 +247,6 @@ class SpockTest extends Specification {
         userRepository.deleteAll()
         institutionRepository.deleteAll()
         themeRepository.deleteAll()
+        enrollmentRepository.deleteAll()
     }
-
-
 }
