@@ -14,6 +14,9 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.demo.DemoService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.demo.DemoUtils
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.EnrollmentService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.repository.EnrollmentRepository
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.ParticipationService
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.repository.ParticipationRepository
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.UserApplicationalService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.UserService
@@ -86,13 +89,6 @@ class SpockTest extends Specification {
     public static final String USER_2_PASSWORD = "4321@7877578"
     public static final String USER_1_TOKEN = "1a2b3c"
     public static final String USER_2_TOKEN = "c3b2a1"
-
-    // Participation
-
-    public static final Integer RATING_1 = 7
-    public static final Integer RATING_2 = 5
-    public static final Integer RATING_3 = 10
-
 
     @Autowired
     AuthUserService authUserService
@@ -246,6 +242,25 @@ class SpockTest extends Specification {
     }
 
 
+    // Participation
+
+    public static final Integer RATING_1 = 7
+    public static final Integer RATING_2 = 5
+    public static final Integer RATING_3 = 10
+
+    @Autowired
+    ParticipationRepository participationRepository
+
+    @Autowired
+    ParticipationService participationService
+
+    protected ParticipationDto createParticipationDto(rating, volunteerId) {
+        def participationDto = new ParticipationDto()
+        participationDto.setRating(rating)
+        participationDto.setAcceptanceDate(DateHandler.toISOString(NOW))
+        participationDto.setVolunteerId(volunteerId)
+        participationDto
+    }
 
     // clean database
 

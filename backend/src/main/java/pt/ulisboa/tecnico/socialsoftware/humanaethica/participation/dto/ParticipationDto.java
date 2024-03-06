@@ -13,6 +13,7 @@ public class ParticipationDto {
 
     private ActivityDto activity;
     private UserDto volunteer;
+    private Integer volunteerId;
 
     public ParticipationDto(){}
 
@@ -66,6 +67,15 @@ public class ParticipationDto {
     public void setVolunteer(UserDto volunteer){
         this.volunteer = volunteer;
     }
+
+    public Integer getVolunteerId() {
+        return volunteerId;
+    }
+
+    public void setVolunteerId(Integer volunteerId) {
+        this.volunteerId = volunteerId;
+    }
+
 
     @Override
     public String toString() {
