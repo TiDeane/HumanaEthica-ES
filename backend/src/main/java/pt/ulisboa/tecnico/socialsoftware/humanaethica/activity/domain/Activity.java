@@ -265,6 +265,10 @@ public class Activity {
         return participations;
     }
 
+    public Integer getParticipantsNumber() {
+        return participations.size();
+    }
+
     public void addParticipation(Participation participation) {
         this.participations.add(participation);
     }
