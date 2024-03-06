@@ -40,7 +40,7 @@ public class EnrollmentDto {
     }
 
     public String getMotivation() {
-        return motivation;
+        return this.motivation;
     }
 
     public void setMotivation(String motivation) {

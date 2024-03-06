@@ -53,7 +53,7 @@ public class Enrollment {
     }
 
     public String getMotivation() {
-        return motivation;
+        return this.motivation;
     }
 
     public void setMotivation(String motivation) {

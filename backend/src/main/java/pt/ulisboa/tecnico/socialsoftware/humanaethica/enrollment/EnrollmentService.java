@@ -46,6 +46,7 @@ public class EnrollmentService {
         Activity activity = activityRepository.findById(activityId).orElseThrow(() -> new HEException(ACTIVITY_NOT_FOUND, activityId));
 
         Enrollment enrollment = new Enrollment(enrollmentDto, activity, volunteer);
+
         enrollmentRepository.save(enrollment);
 
         return new EnrollmentDto(enrollment, true, true);

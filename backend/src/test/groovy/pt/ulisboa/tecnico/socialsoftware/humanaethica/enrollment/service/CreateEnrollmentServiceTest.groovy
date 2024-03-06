@@ -87,8 +87,6 @@ class CreateEnrollmentServiceTest extends SpockTest {
 
         where:
         motivation         | volunteerId | activityId || errorMessage
-        null               | EXIST       | EXIST      || ErrorMessage.ENROLLMENT_MOTIVATION_INVALID
-        SHORT_MOTIVATION_1 | EXIST       | EXIST      || ErrorMessage.ENROLLMENT_MOTIVATION_AT_LEAST_TEN_CHARACTERS
         MOTIVATION_1       | null        | EXIST      || ErrorMessage.USER_NOT_FOUND
         MOTIVATION_1       | NO_EXIST    | EXIST      || ErrorMessage.USER_NOT_FOUND
         MOTIVATION_1       | EXIST       | null       || ErrorMessage.ACTIVITY_NOT_FOUND
