@@ -33,7 +33,7 @@ public class EnrollmentController {
     }
 
     // NEEDS TESTING
-    @PutMapping("/{activityId}/list")
+    @GetMapping("/{activityId}/list")
     @PreAuthorize("hasRole('ROLE_MEMBER') and hasPermission(#activityId, 'ACTIVITY.MEMBER')")
     public List<EnrollmentDto> getActivityEnrollments(@PathVariable Integer activityId){
         return enrollmentService.getEnrollmentsByActivity(activityId);
