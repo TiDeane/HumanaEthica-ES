@@ -10,6 +10,8 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto.EnrollmentDto
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 import spock.lang.Unroll
 
@@ -26,11 +28,9 @@ class CreateEnrollmentServiceTest extends SpockTest {
     def theme
 
     def setup() {
-        volunteer = authUserService.loginDemoVolunteerAuth().getUser()
+        enrollmentDto = createEnrollmentDto(MOTIVATION_1)
 
-        enrollmentDto = new EnrollmentDto()
-        enrollmentDto.motivation = MOTIVATION_1
-        enrollmentDto.enrollmentDateTime = NOW
+        volunteer = authUserService.loginDemoVolunteerAuth().getUser()
 
         institution = institutionService.getDemoInstitution()
 
@@ -52,8 +52,6 @@ class CreateEnrollmentServiceTest extends SpockTest {
     }
 
     def "create enrollment"() {
-        given: "an enrollment dto"
-        def enrollmentDto = createEnrollmentDto(MOTIVATION_1)
 
         when:
         def result = enrollmentService.createEnrollment(volunteer.getId(), activity.getId(), enrollmentDto)
@@ -71,10 +69,22 @@ class CreateEnrollmentServiceTest extends SpockTest {
         storedEnrollment.volunteer.id == volunteer.id
     }
 
+    def "create enrollment with member instead of volunteer and fail"() {
+        given:
+        def member = authUserService.loginDemoMemberAuth().getUser() // Login as a member
+
+        when:
+        enrollmentService.createEnrollment(member.getId(), activity.getId(), enrollmentDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.ENROLLMENT_USER_MUST_BE_VOLUNTEER
+        enrollmentRepository.findAll().size() == 0
+    }
+
+
     @Unroll
-    def 'invalid arguments: motivation=#motivation | volunteerId=#volunteerId | activityId=#activityId'() {
-        given: "an enrollment dto"
-        def enrollmentDto = createEnrollmentDto(motivation)
+    def 'invalid arguments: volunteerId=#volunteerId | activityId=#activityId'() {
 
         when:
         enrollmentService.createEnrollment(getVolunteerId(volunteerId), getActivityId(activityId), enrollmentDto)
@@ -86,11 +96,11 @@ class CreateEnrollmentServiceTest extends SpockTest {
         enrollmentRepository.findAll().size() == 0
 
         where:
-        motivation         | volunteerId | activityId || errorMessage
-        MOTIVATION_1       | null        | EXIST      || ErrorMessage.USER_NOT_FOUND
-        MOTIVATION_1       | NO_EXIST    | EXIST      || ErrorMessage.USER_NOT_FOUND
-        MOTIVATION_1       | EXIST       | null       || ErrorMessage.ACTIVITY_NOT_FOUND
-        MOTIVATION_1       | EXIST       | NO_EXIST   || ErrorMessage.ACTIVITY_NOT_FOUND
+        volunteerId | activityId || errorMessage
+        null        | EXIST      || ErrorMessage.USER_NOT_FOUND
+        NO_EXIST    | EXIST      || ErrorMessage.USER_NOT_FOUND
+        EXIST       | null       || ErrorMessage.ACTIVITY_NOT_FOUND
+        EXIST       | NO_EXIST   || ErrorMessage.ACTIVITY_NOT_FOUND
     }
 
     def getVolunteerId(volunteerId){

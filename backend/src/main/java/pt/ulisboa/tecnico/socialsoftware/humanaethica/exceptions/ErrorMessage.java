@@ -49,7 +49,8 @@ public enum ErrorMessage {
     ENROLLMENT_TIME_BEFORE_DEADLINE("Enrollment time must be before application deadline"),
     ENROLLMENT_VOLUNTEER_ONCE_PER_ACTIVITY("Volunteers may only enroll once per activity"),
 
-    MEMBER_NOT_IN_ACTIVITY_INSTITUTION("Must be member of institution to see institution activity's enrollments");
+    ENROLLMENT_USER_MUST_BE_VOLUNTEER("user must be a Volunteer to enroll on an activity"),
+    MEMBER_NOT_IN_ACTIVITY_INSTITUTION("User must be member of institution to see institution activity's enrollments");
 
     public final String label;
 
