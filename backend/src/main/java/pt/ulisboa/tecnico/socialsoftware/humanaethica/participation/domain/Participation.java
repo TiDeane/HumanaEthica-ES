@@ -97,8 +97,8 @@ public class Participation {
     }
 
     private void totalParticipantsLimit() {
-        if(this.activity.getParticipantsNumberLimit() < this.activity.getParticipantsNumber()) {
-            throw new HEException(PARTICIPATION_TOTAL_PARTICIPANTS_GREATER_THAN_LIMIT, this.activity.getParticipations().size());
+        if(this.activity.getParticipantsNumberLimit() <= this.activity.getParticipantsNumber()) {
+            throw new HEException(PARTICIPATION_TOTAL_PARTICIPANTS_GREATER_THAN_LIMIT, this.activity.getParticipantsNumber());
         }
     }
 

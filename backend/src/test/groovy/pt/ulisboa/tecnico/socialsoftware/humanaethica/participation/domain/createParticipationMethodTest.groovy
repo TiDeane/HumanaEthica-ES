@@ -30,16 +30,17 @@ class CreateActivityMethodTest extends SpockTest {
         participationDto.acceptanceDate = DateHandler.toISOString(NOW)
 
         volunteer.getParticipations() >> [otherParticipation]
-        otherParticipation.getActivity() >> otherActivity
     }
 
     def "create participation object"() {
         given:
         activity.getParticipantsNumberLimit() >> 5
-        activity.getParticipantsNumber() >> 1
+        activity.getParticipantsNumber() >> 0
 
         activity.getApplicationDeadline() >> TWO_DAYS_AGO
-        activity.getParticipations() >> [otherParticipation]
+        activity.getParticipations() >> []
+        otherParticipation.getActivity() >> otherActivity
+
 
         when:
         def result = new Participation(activity, volunteer, participationDto)
@@ -61,6 +62,7 @@ class CreateActivityMethodTest extends SpockTest {
         activity.getParticipantsNumberLimit() >> 5
         activity.getParticipantsNumber() >> 5
         activity.getApplicationDeadline() >> TWO_DAYS_AGO
+        otherParticipation.getActivity() >> otherActivity
 
         when:
         def result = new Participation(activity, volunteer, participationDto)
@@ -77,6 +79,8 @@ class CreateActivityMethodTest extends SpockTest {
         activity.getParticipantsNumberLimit() >> 4
         activity.getApplicationDeadline() >> TWO_DAYS_AGO
         activity.getParticipations() >> [otherParticipation]
+        otherParticipation.getActivity() >> activity
+        activity.getParticipantsNumber() >> 1
 
         when:
         new Participation(activity, volunteer, participationDto)
@@ -91,7 +95,9 @@ class CreateActivityMethodTest extends SpockTest {
         given:
         activity.getParticipantsNumberLimit() >> 4
         activity.getApplicationDeadline() >> applicationDeadline
-        activity.getParticipations() >> [otherParticipation]
+        activity.getParticipantsNumber() >> 3
+        otherParticipation.getActivity() >> otherActivity
+
 
         when:
         new Participation(activity, volunteer, participationDto)
