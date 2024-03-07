@@ -23,7 +23,6 @@ public class EnrollmentController {
 
     private static final Logger logger = LoggerFactory.getLogger(EnrollmentController.class);
 
-    // NEEDS TESTING
     @PutMapping("/{activityId}")
     @PreAuthorize("hasRole('ROLE_VOLUNTEER')")
     public EnrollmentDto createEnrollment(Principal principal, @PathVariable Integer activityId,
@@ -32,7 +31,6 @@ public class EnrollmentController {
         return enrollmentService.createEnrollment(userId, activityId, enrollmentDto);
     }
 
-    // NEEDS TESTING
     @GetMapping("/{activityId}/list")
     @PreAuthorize("hasRole('ROLE_MEMBER') and hasPermission(#activityId, 'ACTIVITY.MEMBER')")
     public List<EnrollmentDto> getActivityEnrollments(@PathVariable Integer activityId){
