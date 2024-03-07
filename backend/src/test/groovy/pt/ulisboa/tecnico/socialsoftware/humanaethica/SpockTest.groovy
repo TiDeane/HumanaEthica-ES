@@ -238,6 +238,8 @@ class SpockTest extends Specification {
         enrollmentDto
     }
 
+
+
     // clean database
 
     def deleteAll() {
