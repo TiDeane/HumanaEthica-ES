@@ -274,5 +274,6 @@ class SpockTest extends Specification {
         institutionRepository.deleteAll()
         themeRepository.deleteAll()
         enrollmentRepository.deleteAll()
+        participationRepository.deleteAll()
     }
 }
