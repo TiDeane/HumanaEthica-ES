@@ -60,7 +60,7 @@ class CreateActivityMethodTest extends SpockTest {
     def "create participation where participant number is higher than the activity's total participant limit"() {
         given:
         activity.getParticipantsNumberLimit() >> 5
-        activity.getParticipantsNumber() >> 5
+        activity.getParticipantsNumber() >> 6
         activity.getApplicationDeadline() >> TWO_DAYS_AGO
         otherParticipation.getActivity() >> otherActivity
 
