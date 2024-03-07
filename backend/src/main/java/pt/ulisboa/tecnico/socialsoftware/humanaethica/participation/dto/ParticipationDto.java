@@ -17,13 +17,18 @@ public class ParticipationDto {
 
     public ParticipationDto(){}
 
-    public ParticipationDto(Participation participation, boolean deepCopyActivity){
+    public ParticipationDto(Participation participation, boolean deepCopyActivity, boolean deepCopyVolunteer){
         setId(participation.getId());
         setRating(participation.getRating());
         setAcceptanceDate(DateHandler.toISOString(participation.getAcceptanceDate()));
 
         if (deepCopyActivity && (participation.getActivity() != null)) {
             setActivity(new ActivityDto(participation.getActivity(), false));
+        }
+
+        if(deepCopyVolunteer && (participation.getVolunteer() != null)) {
+            setVolunteer(new UserDto(participation.getVolunteer()));
+            this.setVolunteerId(participation.getVolunteer().getId());
         }
 
     }

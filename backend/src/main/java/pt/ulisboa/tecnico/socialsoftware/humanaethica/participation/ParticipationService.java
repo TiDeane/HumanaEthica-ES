@@ -38,7 +38,7 @@ public class ParticipationService {
         List<Participation> participations = participationRepository.getParticipationsByActivityId(activityId);
 
         return participations.stream()
-                .map(participation -> new ParticipationDto(participation, true))
+                .map(participation -> new ParticipationDto(participation, true, true))
                 .sorted(Comparator.comparing(participationDto -> participationDto.getVolunteer().getName(), String.CASE_INSENSITIVE_ORDER))
                 .toList();
     }
@@ -58,7 +58,7 @@ public class ParticipationService {
 
         participationRepository.save(participation);
 
-        return new ParticipationDto(participation, true);
+        return new ParticipationDto(participation, true, true);
     }
 
 }
