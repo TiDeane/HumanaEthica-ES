@@ -45,7 +45,7 @@ class GetParticipationsByActivityServiceTest extends SpockTest {
 
         and:"one more participation"
         def participationDto2 = createParticipationDto(RATING_2, volunteer2.id)
-        def participation2 = new Participation(activity, volunteer2, participationDto)
+        def participation2 = new Participation(activity, volunteer2, participationDto2)
         participationRepository.save(participation2)
     }
 
