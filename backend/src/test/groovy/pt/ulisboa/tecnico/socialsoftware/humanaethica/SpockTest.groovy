@@ -248,6 +248,8 @@ class SpockTest extends Specification {
     public static final Integer RATING_2 = 5
     public static final Integer RATING_3 = 10
 
+    public static final Integer ID_1 = 5
+
     @Autowired
     ParticipationRepository participationRepository
 
