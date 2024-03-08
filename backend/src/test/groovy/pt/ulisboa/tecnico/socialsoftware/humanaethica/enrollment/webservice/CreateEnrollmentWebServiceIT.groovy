@@ -52,9 +52,9 @@ class CreateEnrollmentWebServiceIT extends SpockTest {
         demoVolunteerLogin()
 
         when:
-        def response = webClient.put()
+        def response = webClient.post()
                 .uri('/enrollments/' + activityId )
-                .headers(httpHeaders -> httpHeaders.putAll(headers))
+                .headers(httpHeaders -> httpHeaders.postAll(headers))
                 .bodyValue(enrollmentDto)
                 .retrieve()
                 .bodyToMono(EnrollmentDto.class)
@@ -82,7 +82,7 @@ class CreateEnrollmentWebServiceIT extends SpockTest {
         normalUserLogin(USER_1_USERNAME, USER_1_PASSWORD)
 
         when:
-        webClient.put()
+        webClient.post()
                 .uri('/enrollments/' + activityId )
                 .headers(httpHeaders -> httpHeaders.putAll(headers))
                 .bodyValue(enrollmentDto)
