@@ -21,7 +21,7 @@ public class EnrollmentController {
 
     private static final Logger logger = LoggerFactory.getLogger(EnrollmentController.class);
 
-    @PutMapping("/{activityId}")
+    @PostMapping("/{activityId}")
     @PreAuthorize("hasRole('ROLE_VOLUNTEER')")
     public EnrollmentDto createEnrollment(Principal principal, @PathVariable Integer activityId,
                                           @Valid @RequestBody EnrollmentDto enrollmentDto) {
