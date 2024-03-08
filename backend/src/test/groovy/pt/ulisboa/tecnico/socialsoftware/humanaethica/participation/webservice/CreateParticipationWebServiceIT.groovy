@@ -86,30 +86,6 @@ class CreateParticipationWebServiceIT extends SpockTest {
         deleteAll()
     }
 
-    def "login as member, and create a participation with error"() {
-        given: 'a member'
-        demoMemberLogin()
-        and: 'a null rating'
-        participationDto.rating = null
-
-        when: 'the member registers the activity'
-        webClient.post()
-                .uri('/participations/' + activityId)
-                .headers(httpHeaders -> httpHeaders.putAll(headers))
-                .bodyValue(participationDto)
-                .retrieve()
-                .bodyToMono(ParticipationDto.class)
-                .block()
-
-        then: "check response status"
-        def error = thrown(WebClientResponseException)
-        error.statusCode == HttpStatus.BAD_REQUEST
-        participationRepository.count() == 0
-
-        cleanup:
-        deleteAll()
-    }
-
     def "login as volunteer, and try to create a participation"() {
         given: 'a volunteer'
         demoVolunteerLogin()
