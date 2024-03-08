@@ -54,7 +54,7 @@ class CreateEnrollmentWebServiceIT extends SpockTest {
         when:
         def response = webClient.post()
                 .uri('/enrollments/' + activityId )
-                .headers(httpHeaders -> httpHeaders.postAll(headers))
+                .headers(httpHeaders -> httpHeaders.putAll(headers))
                 .bodyValue(enrollmentDto)
                 .retrieve()
                 .bodyToMono(EnrollmentDto.class)
