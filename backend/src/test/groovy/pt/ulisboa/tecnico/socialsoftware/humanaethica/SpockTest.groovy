@@ -31,6 +31,9 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentD
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.repository.AssessmentRepository
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.ThemeService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto.EnrollmentDto
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.repository.AssessmentRepository
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.AssessmentService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.Mailer
 import spock.lang.Specification
@@ -274,9 +277,13 @@ class SpockTest extends Specification {
     @Autowired
     AssessmentRepository assessmentRepository
 
-    protected AssessmentDto createAssessmentDto() {
-        def assessmentDto = new AssessmentDto()
+    @Autowired
+    AssessmentService assessmentService
 
+    protected AssessmentDto createAssessmentDto(review) {
+        def assessmentDto = new AssessmentDto()
+        assessmentDto.setReview(review)
+        assessmentDto.setReviewDate(DateHandler.toISOString(NOW))
         assessmentDto
     }
 
@@ -291,5 +298,7 @@ class SpockTest extends Specification {
         themeRepository.deleteAll()
         enrollmentRepository.deleteAll()
         participationRepository.deleteAll()
+        assessmentRepository.deleteAll()
     }
+
 }
