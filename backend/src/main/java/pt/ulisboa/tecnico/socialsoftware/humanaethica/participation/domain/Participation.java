@@ -41,18 +41,9 @@ public class Participation {
         verifyInvariants();
     }
 
-    public void update(ParticipationDto participationDto) {
-        setRating(participationDto.getRating());
-        setAcceptanceDate(DateHandler.toLocalDateTime(participationDto.getAcceptanceDate()));
-
-        verifyInvariants();
-    }
-
     public Integer getId() {
         return id;
     }
-
-    public void setId(Integer id) { this.id = id; }
 
     public Integer getRating() { return rating; }
 
@@ -77,24 +68,10 @@ public class Participation {
     public Volunteer getVolunteer() { return volunteer; }
 
     private void verifyInvariants() {
-        ratingIsRequired();
-        acceptanceDateIsRequired();
         totalParticipantsLimit();
         volunteerCanOnlyParticipateOnce();
         volunteerPlacedAfterApplicationPeriod();
     };
-
-    private void ratingIsRequired() {
-        if (this.rating == null) {
-            throw new HEException(PARTICIPATION_RATING_INVALID);
-        }
-    }
-
-    private void acceptanceDateIsRequired() {
-        if (this.acceptanceDate == null) {
-            throw new HEException(PARTICIPATION_INVALID_DATE, "acceptance date");
-        }
-    }
 
     private void totalParticipantsLimit() {
         if(this.activity.getParticipantsNumberLimit() < this.activity.getParticipantsNumber()) {
