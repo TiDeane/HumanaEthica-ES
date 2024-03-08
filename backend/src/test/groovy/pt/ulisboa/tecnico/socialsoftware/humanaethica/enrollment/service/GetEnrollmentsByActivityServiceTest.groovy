@@ -10,6 +10,9 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.User
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain.Enrollment
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
+import spock.lang.Unroll
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException
 
 @DataJpaTest
 class GetEnrollmentsByActivityServiceTest extends SpockTest {
@@ -54,6 +57,22 @@ class GetEnrollmentsByActivityServiceTest extends SpockTest {
         result.size() == 2
         result.get(0).motivation == MOTIVATION_1
         result.get(1).motivation == MOTIVATION_2
+    }
+
+    @Unroll
+    def "invalid arguments: activityId=#activityId2"(){
+        when:
+        enrollmentService.getEnrollmentsByActivity(activityId2)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == errorMessage
+        and: "no activity is stored in the database"
+        activityRepository.findAll().size() == 1
+        where:
+        activityId2 || errorMessage
+        null       || ErrorMessage.ACTIVITY_NOT_FOUND
+        2          || ErrorMessage.ACTIVITY_NOT_FOUND
     }
 
     @TestConfiguration

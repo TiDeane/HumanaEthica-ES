@@ -61,7 +61,7 @@ public class EnrollmentService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public List<EnrollmentDto> getEnrollmentsByActivity(Integer activityId) {
         if (activityId == null) throw new HEException(ACTIVITY_NOT_FOUND);
-
+        activityRepository.findById(activityId).orElseThrow(() -> new HEException(ACTIVITY_NOT_FOUND, activityId));
         List<Enrollment> enrollments = enrollmentRepository.getEnrollmentsByActivityId(activityId);
 
         return enrollments.stream()
