@@ -5,18 +5,13 @@ import org.springframework.boot.test.context.TestConfiguration
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.BeanConfiguration
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.SpockTest
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.domain.AuthNormalUser
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.domain.AuthUser
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.dto.ThemeDto //////
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme ///////////
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain.Participation
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.User
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.dto.RegisterUserDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 import spock.lang.Unroll
 
@@ -27,7 +22,6 @@ class CreateParticipationServiceTest extends SpockTest {
 
     def activity
     def member
-    def userDto
     def volunteer
     def participationDto
     def institution
@@ -40,17 +34,8 @@ class CreateParticipationServiceTest extends SpockTest {
 
         member = authUserService.loginDemoMemberAuth().getUser()
 
-        //volunteer = authUserService.loginDemoVolunteerAuth().getUser()
-
         volunteer = new Volunteer(USER_1_NAME, USER_1_USERNAME, USER_1_EMAIL, AuthUser.Type.NORMAL, User.State.ACTIVE)
         userRepository.save(volunteer)
-
-        //userDto = new RegisterUserDto()
-        //userDto.setUsername(USER_1_USERNAME)
-        //userDto.setEmail(USER_1_EMAIL)
-        //userDto.setRole(User.Role.VOLUNTEER)
-
-        //volunteer = userService.registerUser(userDto, null)
 
         institution = institutionService.getDemoInstitution()
 
