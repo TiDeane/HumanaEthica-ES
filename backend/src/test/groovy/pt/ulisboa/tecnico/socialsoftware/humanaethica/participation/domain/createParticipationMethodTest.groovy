@@ -19,7 +19,6 @@ class CreateParticipationMethodTest extends SpockTest {
     Activity activity = Mock()
     Activity otherActivity = Mock()
     Volunteer volunteer = Mock()
-    Volunteer otherVolunteer = Mock()
     Participation otherParticipation = Mock()
     def participationDto
 
