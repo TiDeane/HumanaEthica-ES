@@ -15,7 +15,7 @@ import spock.lang.Unroll
 import java.time.LocalDateTime
 
 @DataJpaTest
-class CreateActivityMethodTest extends SpockTest {
+class CreateParticipationMethodTest extends SpockTest {
     Activity activity = Mock()
     Activity otherActivity = Mock()
     Volunteer volunteer = Mock()
@@ -57,6 +57,7 @@ class CreateActivityMethodTest extends SpockTest {
 
     }
 
+    @Unroll
     def "create participation where participant number is higher than the activity's total participant limit"() {
         given:
         activity.getParticipantsNumberLimit() >> 5
