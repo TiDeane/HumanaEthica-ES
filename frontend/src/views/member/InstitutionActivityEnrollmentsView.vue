@@ -28,6 +28,26 @@
           >
         </v-card-title>
       </template>
+      <template v-slot:[`item.action`]="{ item }">
+        <v-tooltip
+          bottom
+          v-if="
+            item.participating == false &&
+            activity.numberOfParticipations < activity.participantsNumberLimit
+          "
+        >
+          <template v-slot:activator="{ on }">
+            <v-icon
+              class="mr-2 action-button"
+              v-on="on"
+              data-cy="selectParticipant"
+              @click="selectParticipant(item)"
+              >fa-solid fa-check
+            </v-icon>
+          </template>
+          <span>Select Participant</span>
+        </v-tooltip>
+      </template>
     </v-data-table>
   </v-card>
 </template>
@@ -69,6 +89,12 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
       align: 'left',
       width: '5%',
     },
+    {
+      text: 'Action',
+      value: 'action',
+      align: 'left',
+      width: '5%',
+    },
   ];
 
   async created() {
@@ -89,6 +115,11 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
   async getActivities() {
     await this.$store.dispatch('setActivity', null);
     this.$router.push({ name: 'institution-activities' }).catch(() => {});
+  }
+
+  selectParticipant(enrollment: Enrollment) {
+    enrollment.participating = true;
+    //Create participation (after the dialog appears)
   }
 }
 </script>
