@@ -38,10 +38,31 @@
                 >warning</v-icon
               >
             </template>
-            <span>Report Activity</span>
+            <span>Report Activity </span>
+          </v-tooltip>
+          <v-tooltip v-if="item.state === 'APPROVED'" bottom>
+            <template v-slot:activator="{ on }">
+              <v-icon
+                class="mr-2 action-button"
+                color="green"
+                v-on=" on "
+                data-cy="createEnrollmentButton"
+                @click="newEnrollment(item)"
+                >fa-solid fa-right-from-bracket</v-icon
+              >
+            </template>
+            <span>Create Enrollment </span>
           </v-tooltip>
         </template>
       </v-data-table>
+      <enrollment-dialog
+        v-if="currentEnrollment && editEnrollmentDialog"
+        v-model="editEnrollmentDialog"
+        :enrollment="currentEnrollment"
+        :activity="currentActivity"
+        v-on:create-enrollment="onCreateEnrollment"
+        v-on:close-enrollment-dialog="onCloseEnrollmentDialog"
+      />
     </v-card>
   </div>
 </template>
@@ -51,13 +72,23 @@ import { Component, Vue } from 'vue-property-decorator';
 import RemoteServices from '@/services/RemoteServices';
 import Activity from '@/models/activity/Activity';
 import { show } from 'cli-cursor';
+import EnrollmentDialog from '@/views/member/EnrollmentDialog.vue';
+import Enrollment from '@/models/enrollment/Enrollment';
 
 @Component({
   methods: { show },
+  components: {
+    'enrollment-dialog': EnrollmentDialog,
+  },
 })
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
   search: string = '';
+
+  currentEnrollment: Enrollment | null = null;
+  currentActivity: Activity | null = null;
+  editEnrollmentDialog: boolean = false;
+
   headers: object = [
     {
       text: 'Name',
@@ -145,6 +176,28 @@ export default class VolunteerActivitiesView extends Vue {
         await this.$store.dispatch('error', error);
       }
     }
+  }
+
+  newEnrollment(activity: Activity) {
+    this.currentActivity = activity;
+    this.currentEnrollment = new Enrollment();
+    this.editEnrollmentDialog = true;
+  }
+
+  async onCreateEnrollment(enrollment: Enrollment) {
+    /*this.activities = this.activities.filter(
+        (a) => a.id !== activity.id,
+    );
+    this.activities.unshift(activity); //TODO This is just copied from InstitutionActivitiesView*/
+    this.editEnrollmentDialog = false;
+    this.currentEnrollment = null;
+    this.currentActivity = null;
+  }
+
+  async onCloseEnrollmentDialog() {
+    this.editEnrollmentDialog = false;
+    this.currentEnrollment = null;
+    this.currentActivity = null;
   }
 }
 </script>
