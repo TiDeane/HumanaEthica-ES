@@ -72,6 +72,7 @@ export default class EnrollmentDialog extends Vue {
 
   async created() {
     this.createdEnrollment = new Enrollment(this.enrollment);
+    this.enrollmentActivity = new Activity(this.activity);
   }
 
   get canCreate(): boolean {
@@ -81,14 +82,14 @@ export default class EnrollmentDialog extends Vue {
   async createEnrollment() {
     if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
       try {
-        if (this.enrollmentActivity.id !== null) {
-          await RemoteServices.createEnrollment(
-              this.$store.getters.getUser.id,
-              this.enrollmentActivity.id,
-              this.createdEnrollment,
-          );
-        }
-        this.$emit('create-enrollment');
+        const enrollmentActivityId: number = this.enrollmentActivity?.id as number;
+
+        const result = await RemoteServices.createEnrollment(
+          this.$store.getters.getUser.id,
+          enrollmentActivityId,
+          this.createdEnrollment,
+        );
+        this.$emit('create-enrollment', { result, enrollmentActivityId });
       } catch (error) {
         await this.$store.dispatch('error', error);
       }

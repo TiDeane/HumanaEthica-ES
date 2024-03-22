@@ -44,7 +44,7 @@
             <template v-slot:activator="{ on }">
               <v-icon
                 class="mr-2 action-button"
-                color="green"
+                color="blue"
                 v-on=" on "
                 data-cy="createEnrollmentButton"
                 @click="newEnrollment(item)"
@@ -83,6 +83,7 @@ import Enrollment from '@/models/enrollment/Enrollment';
 })
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
+  enrollments: Enrollment[] = [];
   search: string = '';
 
   currentEnrollment: Enrollment | null = null;
@@ -156,7 +157,9 @@ export default class VolunteerActivitiesView extends Vue {
   async created() {
     await this.$store.dispatch('loading');
     try {
+      let userId = this.$store.getters.getUser.id;
       this.activities = await RemoteServices.getActivities();
+      this.enrollments = await RemoteServices.getVolunteerEnrollments(userId);
     } catch (error) {
       await this.$store.dispatch('error', error);
     }
@@ -184,11 +187,14 @@ export default class VolunteerActivitiesView extends Vue {
     this.editEnrollmentDialog = true;
   }
 
-  async onCreateEnrollment(enrollment: Enrollment) {
-    /*this.activities = this.activities.filter(
-        (a) => a.id !== activity.id,
-    );
-    this.activities.unshift(activity); //TODO This is just copied from InstitutionActivitiesView*/
+  async onCreateEnrollment(enrollment: Enrollment, enrollmentActivityId: number) {
+    const activity = this.activities.find(activity => activity.id === enrollmentActivityId);
+
+    if (activity) {
+      activity.enrollments.unshift(enrollment);
+    }
+    this.enrollments.unshift(enrollment);
+
     this.editEnrollmentDialog = false;
     this.currentEnrollment = null;
     this.currentActivity = null;
