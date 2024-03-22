@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.dto.InstitutionDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.dto.ThemeDto;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto.EnrollmentDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public class ActivityDto {
     private String creationDate;
     private List<ThemeDto> themes;
     private InstitutionDto institution;
+    private List<EnrollmentDto> enrollments;
+    private Integer numberOfEnrollments;
 
     public ActivityDto(){
     }
@@ -35,6 +38,11 @@ public class ActivityDto {
                 .map(theme->new ThemeDto(theme,false, true, false))
                 .toList();
 
+        this.enrollments = activity.getEnrollments().stream()
+                .map(enrollment->new EnrollmentDto(enrollment))
+                .toList();
+
+        setNumberOfEnrollments(this.enrollments.size());
         setState(activity.getState().name());
         setCreationDate(DateHandler.toISOString(activity.getCreationDate()));
         setStartingDate(DateHandler.toISOString(activity.getStartingDate()));
@@ -42,7 +50,7 @@ public class ActivityDto {
         setApplicationDeadline(DateHandler.toISOString(activity.getApplicationDeadline()));
 
         if (deepCopyInstitution && (activity.getInstitution() != null)) {
-                setInstitution(new InstitutionDto(activity.getInstitution(), false, false));
+            setInstitution(new InstitutionDto(activity.getInstitution(), false, false));
 
         }
     }
@@ -53,6 +61,22 @@ public class ActivityDto {
 
     public List<ThemeDto> getThemes() {
         return themes;
+    }
+
+    public void setEnrollments(List<EnrollmentDto> enrollments) {
+        this.enrollments = enrollments;
+    }
+
+    public List<EnrollmentDto> getEnrollments() {
+        return enrollments;
+    }
+
+    public void setNumberOfEnrollments(Integer nEnrollments) {
+        this.numberOfEnrollments = nEnrollments;
+    }
+
+    public Integer getNumberOfEnrollments() {
+        return numberOfEnrollments;
     }
 
     public Integer getId() {
@@ -156,6 +180,7 @@ public class ActivityDto {
                 ", creationDate='" + creationDate + '\'' +
                 ", themes=" + themes +
                 ", institution=" + institution +
+                ", enrollments=" + enrollments +
                 '}';
     }
 }

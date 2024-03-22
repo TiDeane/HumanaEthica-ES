@@ -1,5 +1,6 @@
 import { ISOtoString } from '@/services/ConvertDateService';
 import Theme from '@/models/theme/Theme';
+import Enrollment from '@/models/enrollment/Enrollment';
 import Institution from '@/models/institution/Institution';
 
 export default class Activity {
@@ -7,7 +8,9 @@ export default class Activity {
   name!: string;
   region!: string;
   participantsNumberLimit!: number;
+  numberOfEnrollments!: number;
   themes: Theme[] = [];
+  enrollments: Enrollment[] = [];
   institution!: Institution;
   state!: string;
   creationDate!: string;
@@ -25,8 +28,12 @@ export default class Activity {
       this.name = jsonObj.name;
       this.region = jsonObj.region;
       this.participantsNumberLimit = jsonObj.participantsNumberLimit;
+      this.numberOfEnrollments = jsonObj.numberOfEnrollments;
       this.themes = jsonObj.themes.map((themes: Theme) => {
         return new Theme(themes);
+      });
+      this.enrollments = jsonObj.enrollments.map((enrollments: Enrollment) => {
+        return new Enrollment(enrollments);
       });
       this.institution = jsonObj.institution;
       this.state = jsonObj.state;
