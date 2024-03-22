@@ -40,11 +40,11 @@
             </template>
             <span>Report Activity </span>
           </v-tooltip>
-          <v-tooltip v-if="item.state === 'APPROVED'" bottom>
+          <v-tooltip v-if="item.state === 'APPROVED' && enrollmentDeadline(item)" bottom>
             <template v-slot:activator="{ on }">
               <v-icon
                 class="mr-2 action-button"
-                color="blue"
+                color="green"
                 v-on=" on "
                 data-cy="createEnrollmentButton"
                 @click="newEnrollment(item)"
@@ -204,6 +204,12 @@ export default class VolunteerActivitiesView extends Vue {
     this.editEnrollmentDialog = false;
     this.currentEnrollment = null;
     this.currentActivity = null;
+  }
+
+  enrollmentDeadline(activity: Activity){
+    const currentDate = new Date();
+    const DeadlineDate = new Date(activity.applicationDeadline);
+    return  currentDate <= DeadlineDate;
   }
 }
 </script>
