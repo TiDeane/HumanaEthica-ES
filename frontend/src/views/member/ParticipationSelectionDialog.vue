@@ -66,6 +66,7 @@ export default class ActivityDialog extends Vue {
 
   async created() {
     this.editParticipation = new Participation();
+    this.editParticipation.volunteerId = this.volunteerId;
   }
 
   isNumberValid(value: any) {
@@ -85,7 +86,7 @@ export default class ActivityDialog extends Vue {
     if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
       try {
         const result = await RemoteServices.registerParticipation(
-          this.$store.getters.getUser.id,
+          this.$store.getters.getActivity.id,
           this.editParticipation,
         );
         this.$emit('save-participation', result);
