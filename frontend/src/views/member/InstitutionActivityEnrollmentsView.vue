@@ -41,7 +41,7 @@
               class="mr-2 action-button"
               v-on="on"
               data-cy="selectParticipant"
-              @click="selectParticipant(item)"
+              @click="newParticipation(item)"
               >fa-solid fa-check
             </v-icon>
           </template>
@@ -49,6 +49,13 @@
         </v-tooltip>
       </template>
     </v-data-table>
+    <participation-dialog
+      v-if="currentEnrollment && editParticipationDialog"
+      v-model="editParticipationDialog"
+      :volunteerId="currentEnrollment.volunteerId"
+      v-on:save-participation="onSaveParticipation"
+      v-on:close-participation-dialog="onCloseParticipationDialog"
+    />
   </v-card>
 </template>
 
@@ -57,12 +64,21 @@ import { Component, Vue } from 'vue-property-decorator';
 import RemoteServices from '@/services/RemoteServices';
 import Activity from '@/models/activity/Activity';
 import Enrollment from '@/models/enrollment/Enrollment';
+import Participation from '@/models/participation/Participation';
+import ParticipationSelectionDialog from '@/views/member/ParticipationSelectionDialog.vue';
 
-@Component({})
+@Component({
+  components: {
+    'participation-dialog': ParticipationSelectionDialog,
+  },
+})
 export default class InstitutionActivityEnrollmentsView extends Vue {
   activity!: Activity;
   enrollments: Enrollment[] = [];
   search: string = '';
+
+  currentEnrollment: Enrollment | null = null;
+  editParticipationDialog: boolean = true;
 
   headers: object = [
     {
@@ -117,9 +133,37 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
     this.$router.push({ name: 'institution-activities' }).catch(() => {});
   }
 
+  onCloseParticipationDialog() {
+    this.currentEnrollment = null;
+    this.editParticipationDialog = false;
+  }
+
   selectParticipant(enrollment: Enrollment) {
+    // Updates enrollment and activity
     enrollment.participating = true;
-    //Create participation (after the dialog appears)
+  }
+
+  newParticipation(enrollment: Enrollment) {
+    this.currentEnrollment = enrollment;
+    this.editParticipationDialog = true;
+  }
+
+  async onSaveParticipation(participation: Participation) {
+    if (!participation) {
+      throw new TypeError(
+        'Participation was not correctly created',
+        participation,
+      );
+    }
+
+    this.enrollments = this.enrollments.filter(
+      (e) => e.id !== this.currentEnrollment!.id,
+    );
+    this.selectParticipant(this.currentEnrollment!);
+    this.enrollments.unshift(this.currentEnrollment!);
+
+    this.editParticipationDialog = false;
+    this.currentEnrollment = null;
   }
 }
 </script>
