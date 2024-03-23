@@ -3,9 +3,7 @@
     <v-card>
       <v-card-title>
         <span class="headline">
-          {{
-                'Select Pariticpant'
-          }}
+          {{ 'Select Pariticpant' }}
         </span>
       </v-card-title>
       <v-card-text>
@@ -13,14 +11,13 @@
           <v-row>
             <v-col cols="12" sm="6" md="4">
               <v-text-field
-                  label="Rating"
-                  :rules="[
+                label="Rating"
+                :rules="[
                   (v) =>
-                    isNumberValid(v) ||
-                    'Rating between 1 and 5 is required',
+                    isNumberValid(v) || 'Rating between 1 and 5 is required',
                 ]"
-                  v-model="editParticipation.rating"
-                  data-cy="ratingInput"
+                v-model="editParticipation.rating"
+                data-cy="ratingInput"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -29,17 +26,17 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-            color="blue-darken-1"
-            variant="text"
-            @click="$emit('close-participation-dialog')"
+          color="blue-darken-1"
+          variant="text"
+          @click="$emit('close-participation-dialog')"
         >
           Close
         </v-btn>
         <v-btn
-            color="blue-darken-1"
-            variant="text"
-            @click="updateParticipation"
-            data-cy="saveParticipation"
+          color="blue-darken-1"
+          variant="text"
+          @click="updateParticipation"
+          data-cy="saveParticipation"
         >
           Make Participant
         </v-btn>
@@ -72,7 +69,9 @@ export default class ActivityDialog extends Vue {
   }
 
   isNumberValid(value: any) {
-    if(!value){return true;}
+    if (!value) {
+      return true;
+    }
     if (!/^\d+$/.test(value)) return false;
     const parsedValue = parseInt(value);
     return parsedValue >= 1 && parsedValue <= 5;
@@ -85,11 +84,10 @@ export default class ActivityDialog extends Vue {
   async updateParticipation() {
     if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
       try {
-        const result =
-                await RemoteServices.registerParticipation(
-                    this.$store.getters.getUser.id,
-                    this.editParticipation,
-                );
+        const result = await RemoteServices.registerParticipation(
+          this.$store.getters.getUser.id,
+          this.editParticipation,
+        );
         this.$emit('save-participation', result);
       } catch (error) {
         await this.$store.dispatch('error', error);
