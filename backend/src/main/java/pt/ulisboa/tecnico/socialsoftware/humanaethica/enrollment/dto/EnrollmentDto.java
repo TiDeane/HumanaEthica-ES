@@ -12,6 +12,8 @@ public class EnrollmentDto {
     private Integer activityId;
     private String volunteerName;
 
+    private int volunteerId;
+
     private boolean participating;
 
 
@@ -23,6 +25,7 @@ public class EnrollmentDto {
         this.enrollmentDateTime = DateHandler.toISOString(enrollment.getEnrollmentDateTime());
         this.activityId = enrollment.getActivity().getId();
         this.volunteerName = enrollment.getVolunteer().getName();
+        this.volunteerId = enrollment.getVolunteer().getId();
         this.participating = isParticipating(enrollment);
     }
 
@@ -64,6 +67,14 @@ public class EnrollmentDto {
 
     public void setVolunteerName(String volunteerName) {
         this.volunteerName = volunteerName;
+    }
+
+    public int getVolunteerId() {
+        return volunteerId;
+    }
+
+    public void setVolunteerId(int volunteerId) {
+        this.volunteerId = volunteerId;
     }
 
     public boolean getParticipating() {

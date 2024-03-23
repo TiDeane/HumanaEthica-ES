@@ -5,6 +5,7 @@ export default class Enrollment {
   motivation!: string;
   enrollmentDateTime!: string;
   activityId!: number;
+  volunteerId!: number;
   volunteerName!: string;
   participating!: boolean;
 
@@ -15,6 +16,7 @@ export default class Enrollment {
       this.enrollmentDateTime = ISOtoString(jsonObj.enrollmentDateTime);
       this.activityId = jsonObj.activityId;
       this.volunteerName = jsonObj.volunteerName;
+      this.volunteerId = jsonObj.volunteerId;
       this.participating = jsonObj.participating;
     }
   }
