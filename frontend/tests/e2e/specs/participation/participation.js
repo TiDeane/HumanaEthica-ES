@@ -7,7 +7,9 @@ describe('SelectParticipant', () => {
     const starting_date = '2024-02-07 17:58:21.402146';
     const state = 'APPROVED'
     const institution_id = 1;
-    
+
+    const rating = 5
+
     const ACTIVITIES = [
         {id: 1, description: 'Has vacancies', name: 'A1', participants_number_limit: 2},
         {id: 2, description: 'Has no vacancies', name: 'A2', participants_number_limit: 1},
@@ -82,6 +84,18 @@ describe('SelectParticipant', () => {
 
       cy.get('[data-cy="activityEnrollmentsTable"] tbody tr')
       .eq(0).children().eq(2).should('contain', false);
-    
+
+      cy.get('[data-cy="selectParticipant"]').eq(0).click();
+      cy.get('[data-cy="ratingInput"]').type(rating);
+      cy.get('[data-cy=saveParticipation]').click();
+
+      cy.get('[data-cy="activityEnrollmentsTable"] tbody tr')
+          .eq(0).children().eq(2).should('contain', true);
+
+      cy.get('[data-cy="getActivities"]').click();
+      cy.wait('@getInstitutions');
+
+        cy.get('[data-cy="memberActivitiesTable"] tbody tr')
+            .eq(0).children().eq(3).should('contain', 2);
     });
 });
