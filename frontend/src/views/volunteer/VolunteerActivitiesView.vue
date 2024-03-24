@@ -51,7 +51,7 @@
                 >fa-solid fa-right-from-bracket</v-icon
               >
             </template>
-            <span>Create Enrollment </span>
+            <span>Apply for Activity </span>
           </v-tooltip>
         </template>
       </v-data-table>
