@@ -9,6 +9,8 @@ const credentials = {
 const INSTITUTION_COLUMNS = "institutions (id, active, confirmation_token, creation_date, email, name, nif, token_generation_date)";
 const USER_COLUMNS = "users (user_type, id, creation_date, name, role, state, institution_id)";
 const AUTH_USERS_COLUMNS = "auth_users (auth_type, id, active, email, username, user_id)";
+const ACTIVITY_COLUMNS = "activity (id, application_deadline, creation_date, description, ending_date, name, participants_number_limit, region, starting_date, state, institution_id)";
+const ENROLLMENT_COLUMNS = "enrollment (id, enrollment_date_time, motivation, activity_id, volunteer_id)";
 
 const now = new Date();
 const tomorrow = new Date(now);
@@ -21,6 +23,10 @@ const dayBeforeYesterday = new Date(now);
 dayBeforeYesterday.setDate(now.getDate() - 2);
 
 Cypress.Commands.add('deleteAllButArs', () => {
+  cy.task('queryDatabase', {
+    query: "DELETE FROM ENROLLMENT",
+    credentials: credentials,
+  });
   cy.task('queryDatabase', {
     query: "DELETE FROM ACTIVITY",
     credentials: credentials,
@@ -83,3 +89,46 @@ function generateInstitutionTuple(id) {
   return "VALUES ('"
     + id + "', 't', 'abca428c09862e89', '2022-08-06 17:58:21.402146','demo_institution@mail.com', 'DEMO INSTITUTION', '000000000', '2024-02-06 17:58:21.402134')";
 }
+
+Cypress.Commands.add(
+  'createActivity',
+  (id, application_deadline, creation_date, description, ending_date, name, participants_number_limit, region, starting_date, state, institution_id) => {
+    cy.task('queryDatabase', {
+      query: "INSERT INTO " + ACTIVITY_COLUMNS + generateActivityTuple(id, application_deadline, creation_date, description, ending_date, name, participants_number_limit, region, starting_date, state, institution_id),
+      credentials: credentials,
+    })
+  })
+
+Cypress.Commands.add(
+  'createEnrollment',
+  (id, enrollment_date_time, motivation, activity_id, volunteer_id) => {
+    cy.task('queryDatabase', {
+      query: "INSERT INTO " + ENROLLMENT_COLUMNS + generateEnrollmentTuple(id, enrollment_date_time, motivation, activity_id, volunteer_id),
+      credentials: credentials,
+    })
+  })
+
+function generateActivityTuple(id, application_deadline, creation_date, description, ending_date, name, participants_number_limit, region, starting_date, state, institution_id) {
+  return "VALUES ('"
+    + id + "', '"
+    + application_deadline + "', '"
+    + creation_date + "', '"
+    + description + "', '"
+    + ending_date + "', '"
+    + name + "', '"
+    + participants_number_limit + "', '"
+    + region + "', '"
+    + starting_date + "', '"
+    + state + "', "
+    + institution_id + ")";
+}
+
+function generateEnrollmentTuple(id, enrollment_date_time, motivation, activity_id, volunteer_id) {
+  return "VALUES ('"
+    + id + "', '"
+    + enrollment_date_time + "', '"
+    + motivation + "', '"
+    + activity_id + "', "
+    + volunteer_id + ")";
+}
+
