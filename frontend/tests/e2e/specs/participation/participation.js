@@ -1,101 +1,70 @@
 describe('SelectParticipant', () => {
-    
-    const applicationDeadline = '2024-02-06 17:58:21.402146';
-    const creation_date = '2024-01-06 17:58:21.402146';
-    const ending_date = '2024-02-08 17:58:21.402146';
-    const region = 'Lisbon';
-    const starting_date = '2024-02-07 17:58:21.402146';
-    const state = 'APPROVED'
-    const institution_id = 1;
+  beforeEach(() => {
+    cy.deleteAllButArs();
+    cy.populateParticipationTest();
+  });
 
-    const rating = 5
+  afterEach(() => {
+    cy.deleteAllButArs();
+  });
 
-    const ACTIVITIES = [
-        {id: 1, description: 'Has vacancies', name: 'A1', participants_number_limit: 2},
-        {id: 2, description: 'Has no vacancies', name: 'A2', participants_number_limit: 1},
-    ];
+  it('Select Participant', () => {
+    const rating = 5;
 
-    const ENROLLMENTS = [
-        {id: 1, enrollment_date_time: '2024-02-06 18:51:37.595713', motivation: 'Has vacancies and do not participate', activity_id: 1, volunteer_id: 3},
-        {id: 2, enrollment_date_time: '2024-02-06 19:51:37.595713', motivation: 'Has vacancies and participate', activity_id: 1, volunteer_id: 4},
-        {id: 3, enrollment_date_time: '2024-02-06 18:51:37.595713', motivation: 'Has no vacancies and participate', activity_id: 2, volunteer_id: 3},
-        {id: 4, enrollment_date_time: '2024-02-06 20:51:37.595713', motivation: 'Has no vacancies and do not participate', activity_id: 2, volunteer_id: 5},
-    ];
+    cy.demoMemberLogin();
 
-    const PARTICIPATIONS = [
-        {id: 5, acceptance_date: '2024-02-06 18:51:37.595713', rating: 5, activity_id: 1, volunteer_id: 4},
-        {id: 6, acceptance_date: '2024-02-06 18:51:37.595713', rating: 5, activity_id: 2, volunteer_id: 3},
-    ];
-    
-    beforeEach(() => {
+    cy.get('[data-cy="institution"]').click();
+    cy.intercept('GET', '/users/*/getInstitution').as('getInstitutions');
+    cy.intercept('GET', '/themes/availableThemes').as('availableTeams');
 
-      cy.deleteAllButArs();
-      cy.createDemoEntities();
+    cy.get('[data-cy="activities"]').click();
+    cy.wait('@getInstitutions');
+    cy.wait('@availableTeams');
 
-      for(const activity of ACTIVITIES) {
-        cy.createActivity(activity.id, applicationDeadline, creation_date, activity.description, 
-            ending_date, activity.name, activity.participants_number_limit, region, starting_date, state, institution_id);
-      }
+    cy.get('[data-cy="memberActivitiesTable"] tbody tr').should(
+      'have.length',
+      2,
+    );
 
-      for(const enrollment of ENROLLMENTS) {
-        cy.createEnrollment(enrollment.id, enrollment.enrollment_date_time, enrollment.motivation,
-           enrollment.activity_id, enrollment.volunteer_id);
-      }
+    cy.get('[data-cy="memberActivitiesTable"] tbody tr')
+      .eq(0)
+      .children()
+      .eq(4)
+      .should('contain', 1);
 
-      for(const participation of PARTICIPATIONS) {
-        cy.createParticipation(participation.id, participation.acceptance_date, participation.rating, 
-          participation.activity_id, participation.volunteer_id);
-      }
+    cy.intercept('GET', '/activities/*/enrollments').as('activityEnrollments');
 
-    });
-  
+    cy.get('[data-cy="showEnrollments"]').eq(0).click();
+    cy.wait('@activityEnrollments');
 
-    afterEach(() => {
-      cy.deleteAllButArs();
-    });
+    cy.get('[data-cy="activityEnrollmentsTable"] tbody tr').should(
+      'have.length',
+      2,
+    );
 
+    cy.get('[data-cy="activityEnrollmentsTable"] tbody tr')
+      .eq(0)
+      .children()
+      .eq(2)
+      .should('contain', false);
 
-    it('Select Participant', () => { 
-      
-      cy.demoMemberLogin();
+    cy.get('[data-cy="selectParticipant"]').eq(0).click();
+    cy.get('[data-cy="ratingInput"]').type(rating);
+    cy.get('[data-cy=saveParticipation]').click();
 
-      cy.get('[data-cy="institution"]').click();
-      cy.intercept('GET', '/users/*/getInstitution').as('getInstitutions');
-      cy.intercept('GET', '/themes/availableThemes').as('availableTeams');
+    cy.get('[data-cy="activityEnrollmentsTable"] tbody tr')
+      .eq(0)
+      .children()
+      .eq(2)
+      .should('contain', true);
 
-      
-      cy.get('[data-cy="activities"]').click();
-      cy.wait('@getInstitutions');
-      cy.wait('@availableTeams');
+    cy.get('[data-cy="getActivities"]').click();
+    cy.wait('@getInstitutions');
 
-      cy.get('[data-cy="memberActivitiesTable"] tbody tr')
-      .should('have.length', 2);
-
-
-      cy.get('[data-cy="memberActivitiesTable"] tbody tr')
-      .eq(0).children().eq(3).should('contain', 1);
-
-      cy.intercept('GET', '/activities/*/enrollments').as('activityEnrollments');
-      
-      cy.get('[data-cy="showEnrollments"]').eq(0).click();
-      cy.wait('@activityEnrollments');
-
-      cy.get('[data-cy="activityEnrollmentsTable"] tbody tr').should('have.length', 2);
-
-      cy.get('[data-cy="activityEnrollmentsTable"] tbody tr')
-      .eq(0).children().eq(2).should('contain', false);
-
-      cy.get('[data-cy="selectParticipant"]').eq(0).click();
-      cy.get('[data-cy="ratingInput"]').type(rating);
-      cy.get('[data-cy=saveParticipation]').click();
-
-      cy.get('[data-cy="activityEnrollmentsTable"] tbody tr')
-          .eq(0).children().eq(2).should('contain', true);
-
-      cy.get('[data-cy="getActivities"]').click();
-      cy.wait('@getInstitutions');
-
-        cy.get('[data-cy="memberActivitiesTable"] tbody tr')
-            .eq(0).children().eq(3).should('contain', 2);
-    });
+    cy.get('[data-cy="memberActivitiesTable"] tbody tr')
+      .eq(0)
+      .children()
+      .eq(4)
+      .should('contain', 2);
+  });
 });
