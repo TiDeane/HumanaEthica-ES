@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title>
         <span class="headline">
-          Create Enrollment
+          New Application
         </span>
       </v-card-title>
       <v-card-text>
@@ -14,7 +14,7 @@
                 label="*Motivation"
                 :rules="[
                   (v) =>
-                    (v && v.length >= 10) ||
+                    (v && v.trim().length >= 10) ||
                     'Motivation must be at least 10 characters',
                 ]"
                 required
@@ -28,19 +28,20 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          color="blue-darken-1"
+          color="white"
           variant="text"
           @click="$emit('close-enrollment-dialog')"
         >
           Close
         </v-btn>
         <v-btn
-          color="blue darken-1"
+          v-if="createdEnrollment.motivation.trim().length >= 10"
+          color="white"
           variant="text"
           @click="createEnrollment"
           data-cy="createEnrollment"
         >
-          Create
+          Save
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -73,6 +74,7 @@ export default class EnrollmentDialog extends Vue {
   async created() {
     this.createdEnrollment = new Enrollment(this.enrollment);
     this.enrollmentActivity = new Activity(this.activity);
+    this.createdEnrollment.motivation = '';
   }
 
   get canCreate(): boolean {
