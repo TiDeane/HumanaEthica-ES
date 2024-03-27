@@ -34,5 +34,22 @@ describe('Assessment', () => {
 
         cy.logout();
 
+        // As member
+        cy.demoMemberLogin()
+
+        // Go to assessments view
+        cy.get('[data-cy="institution"]').click();
+        cy.get('[data-cy="assessments"]').click();
+
+        // Verify number of assessments
+        cy.get('[data-cy="institutionAssessmentsTable"] tbody tr')
+            .should('have.length', 1);
+
+        // Verify motivation field
+        cy.get('[data-cy="institutionAssessmentsTable"] tbody tr')
+            .eq(0).children().eq(0).should('contain', REVIEW)
+
+        cy.logout();
+
     });
 });
