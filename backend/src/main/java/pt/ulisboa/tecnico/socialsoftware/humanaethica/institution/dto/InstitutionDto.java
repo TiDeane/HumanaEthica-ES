@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.dto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.dto.ThemeDto;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class InstitutionDto {
 
     private List<ActivityDto> activityDto = new ArrayList<>();
 
+    private List<AssessmentDto> assessmentDto = new ArrayList<>();
+
     public InstitutionDto(){
     }
 
@@ -38,7 +41,7 @@ public class InstitutionDto {
         setCreationDate(DateHandler.toISOString(institution.getCreationDate()));
     }
 
-    public InstitutionDto(Institution institution, boolean deepCopyThemes, boolean deepCopyActivities){
+    public InstitutionDto(Institution institution, boolean deepCopyThemes, boolean deepCopyActivities, boolean deepCopyAssessments){
         setId(institution.getId());
         setEmail(institution.getEmail());
         setName(institution.getName());
@@ -53,6 +56,11 @@ public class InstitutionDto {
         if (deepCopyActivities) {
             this.activityDto = institution.getActivities().stream()
                     .map(activity-> new ActivityDto(activity,false))
+                    .toList();
+        }
+        if (deepCopyAssessments) {
+            this.assessmentDto = institution.getAssessments().stream()
+                    .map(assessment-> new AssessmentDto(assessment))
                     .toList();
         }
     }
@@ -125,5 +133,13 @@ public class InstitutionDto {
 
     public void setActivities(List<ActivityDto> activityDto) {
         this.activityDto = activityDto;
+    }
+
+    public List<AssessmentDto>getAssessments() {
+        return assessmentDto;
+    }
+
+    public void setAssessments(List<AssessmentDto> assessmentDto) {
+        this.assessmentDto = assessmentDto;
     }
 }

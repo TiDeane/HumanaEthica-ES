@@ -1,6 +1,7 @@
 import { ISOtoString } from '@/services/ConvertDateService';
 import Activity from '@/models/activity/Activity';
 import Theme from '@/models/theme/Theme';
+import Assessment from '@/models/assessment/Assessment';
 
 export default class Institution {
   id: number | null = null;
@@ -11,6 +12,7 @@ export default class Institution {
   creationDate!: string;
   activities!: Activity[];
   themes: Theme[] = [];
+  assessments: Assessment[] = [];
 
   constructor(jsonObj?: Institution) {
     if (jsonObj) {
@@ -25,6 +27,9 @@ export default class Institution {
       });
       this.activities = jsonObj.activities.map((activities: Activity) => {
         return new Activity(activities);
+      });
+      this.assessments = jsonObj.assessments.map((assessments: Assessment) => {
+        return new Assessment(assessments);
       });
     }
   }

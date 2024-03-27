@@ -52,7 +52,7 @@ public class ActivityDto {
         setNumberOfParticipations(activity.getParticipations().size());
 
         if (deepCopyInstitution && (activity.getInstitution() != null)) {
-            setInstitution(new InstitutionDto(activity.getInstitution(), false, false));
+                setInstitution(new InstitutionDto(activity.getInstitution(), false, false, false));
 
         }
     }
