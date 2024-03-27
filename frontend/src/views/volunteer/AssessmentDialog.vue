@@ -28,6 +28,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
+            v-if="reviewLength() >= 10"
             color="white"
             variant="text"
             @click="$emit('close-assessment-dialog')"
@@ -80,6 +81,14 @@ export default class AssessmentDialog extends Vue {
   async createAssessment() {
     /* TODO */
   }
+
+  reviewLength() {
+  if (this.createdAssessment.review) {
+    return this.createdAssessment.review.length;
+  } else {
+    return 0;
+  }
+}
 
 }
 </script>
