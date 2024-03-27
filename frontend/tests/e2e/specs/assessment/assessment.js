@@ -27,6 +27,11 @@ describe('Assessment', () => {
         cy.get('[data-cy="volunteerActivitiesTable"] tbody tr')
             .eq(0).children().eq(0).should('contain', NAME)
 
+        // Create an assessment
+        cy.get('[data-cy="createAssessmentButton"]').first().click();
+        cy.get('[data-cy="reviewInput"]').type(REVIEW);
+        cy.get('[data-cy="createAssessment"]').click();
+
         cy.logout();
 
     });
