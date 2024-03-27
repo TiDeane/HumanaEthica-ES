@@ -1,21 +1,21 @@
 <template>
   <v-card class="table">
     <v-data-table
-      :headers="headers"
-      :items="assessments"
-      :search="search"
-      disable-pagination
-      :hide-default-footer="true"
-      :mobile-breakpoint="0"
-      data-cy="institutionAssessmentsTable"
+        :headers="headers"
+        :items="assessments"
+        :search="search"
+        disable-pagination
+        :hide-default-footer="true"
+        :mobile-breakpoint="0"
+        data-cy="institutionAssessmentsTable"
     >
       <template v-slot:top>
         <v-card-title>
           <v-text-field
-            v-model="search"
-            append-icon="search"
-            label="Search"
-            class="mx-2"
+              v-model="search"
+              append-icon="search"
+              label="Search"
+              class="mx-2"
           />
         </v-card-title>
       </template>
@@ -43,6 +43,12 @@ export default class InstitutionAssessmentsView extends Vue {
       width: '30%',
     },
     {
+      text: 'Volunteer',
+      value: 'volunteerName',
+      align: 'left',
+      width: '5%',
+    },
+    {
       text: 'Review Date',
       value: 'reviewDate',
       align: 'left',
@@ -56,7 +62,7 @@ export default class InstitutionAssessmentsView extends Vue {
       let userId = this.$store.getters.getUser.id;
       this.institution = await RemoteServices.getInstitution(userId);
       this.assessments = await RemoteServices.getInstitutionAssessments(
-        this.institution.id,
+          this.institution.id,
       );
     } catch (error) {
       await this.$store.dispatch('error', error);
