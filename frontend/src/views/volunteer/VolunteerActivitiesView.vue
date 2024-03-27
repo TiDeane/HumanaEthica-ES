@@ -40,6 +40,19 @@
             </template>
             <span>Report Activity</span>
           </v-tooltip>
+          <v-tooltip v-if="item.state === 'APPROVED' && isActivityterminated(item) && isAssessingFirstTimeInstitution(item) && hasOneParticipation(item)" bottom>
+            <template v-slot:activator="{ on }">
+              <v-icon
+                  class="mr-2 action-button"
+                  color="blue"
+                  v-on=" on "
+                  data-cy="createAssessmentButton"
+                  @click="newAssessment(item)"
+              >fa-solid fa-pen-to-square</v-icon
+              >
+            </template>
+            <span>Create Assessment</span>
+          </v-tooltip>
         </template>
       </v-data-table>
     </v-card>
@@ -51,12 +64,19 @@ import { Component, Vue } from 'vue-property-decorator';
 import RemoteServices from '@/services/RemoteServices';
 import Activity from '@/models/activity/Activity';
 import { show } from 'cli-cursor';
+import Assessment from '@/models/assessment/Assessment';
+import Participation from '@/models/participation/Participation';
 
 @Component({
   methods: { show },
 })
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
+  currentActivity: Activity | null = null;
+  assessments: Assessment[] = [];
+  participations: Participation[] = [];
+  currentAssessment: Assessment | null = null;
+  editAssessmentDialog: boolean = false;
   search: string = '';
   headers: object = [
     {
@@ -125,7 +145,10 @@ export default class VolunteerActivitiesView extends Vue {
   async created() {
     await this.$store.dispatch('loading');
     try {
+      let userId = this.$store.getters.getUser.id;
       this.activities = await RemoteServices.getActivities();
+      this.participations = await RemoteServices.getVolunteerParticipations(userId);
+      this.assessments = await RemoteServices.getVolunteerAssessments(userId);
     } catch (error) {
       await this.$store.dispatch('error', error);
     }
@@ -145,6 +168,38 @@ export default class VolunteerActivitiesView extends Vue {
         await this.$store.dispatch('error', error);
       }
     }
+  }
+
+  newAssessment(activity: Activity) {
+    /* TODO */
+  }
+
+  async onSaveAssessment(assessment: Assessment, assessmentInstitutionId: number) {
+    /* TODO */
+  }
+
+  async onCloseAssessmentDialog() {
+    /* TODO */
+  }
+
+  isActivityterminated(activity: Activity) {
+    const currentDate = new Date();
+    const DeadlineDate = new Date(activity.applicationDeadline);
+    return currentDate > DeadlineDate;
+  }
+
+  isAssessingFirstTimeInstitution(activity: Activity) {
+    if (!this.assessments) {
+      return false;
+    }
+    return !this.assessments.some((a) => a.institutionId === activity.institution.id);
+  }
+
+  hasOneParticipation(activity: Activity) {
+    if (!this.participations) {
+      return false;
+    }
+    return this.participations.some((p) => p.activityId === activity.id);
   }
 }
 </script>
