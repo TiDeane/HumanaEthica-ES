@@ -190,7 +190,24 @@ export default class VolunteerActivitiesView extends Vue {
   }
 
   async onSaveAssessment(assessment: Assessment, assessmentInstitutionId: number) {
-    /* TODO */
+    const activity = this.activities.find(activity => activity.institution.id === assessmentInstitutionId);
+
+    if (activity) {
+      activity.institution.assessments.unshift(assessment);
+    }
+    this.assessments.unshift(assessment);
+
+    try {
+      let userId = this.$store.getters.getUser.id;
+      this.activities = await RemoteServices.getActivities();
+      this.assessments = await RemoteServices.getVolunteerAssessments(userId);
+    } catch (error) {
+      await this.$store.dispatch('error', error);
+    }
+
+    this.editAssessmentDialog = false;
+    this.currentAssessment = null;
+    this.currentActivity = null;
   }
 
   async onCloseAssessmentDialog() {

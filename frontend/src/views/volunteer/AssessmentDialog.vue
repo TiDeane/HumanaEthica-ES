@@ -28,7 +28,6 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-            v-if="reviewLength() >= 10"
             color="white"
             variant="text"
             @click="$emit('close-assessment-dialog')"
@@ -36,6 +35,7 @@
           Close
         </v-btn>
         <v-btn
+            v-if="reviewLength() >= 10"
             color="white"
             variant="text"
             @click="createAssessment"
@@ -79,17 +79,29 @@ export default class AssessmentDialog extends Vue {
   }
 
   async createAssessment() {
-    /* TODO */
+    if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
+      try {
+        const assessmentInstitutionId: number = this.activity.institution?.id as number;
+
+        const result = await RemoteServices.createAssessment(
+            this.$store.getters.getUser.id,
+            assessmentInstitutionId,
+            this.createdAssessment,
+        );
+        this.$emit('save-assessment', { result, assessmentInstitutionId });
+      } catch (error) {
+        await this.$store.dispatch('error', error);
+      }
+    }
   }
 
   reviewLength() {
-  if (this.createdAssessment.review) {
-    return this.createdAssessment.review.length;
-  } else {
-    return 0;
+    if (this.createdAssessment.review) {
+      return this.createdAssessment.review.length;
+    } else {
+      return 0;
+    }
   }
-}
-
 }
 </script>
 
