@@ -53,6 +53,19 @@
             </template>
             <span>Apply for Activity </span>
           </v-tooltip>
+          <v-tooltip v-if="item.state === 'APPROVED' && isActivityterminated(item) && isAssessingFirstTimeInstitution(item) && hasOneParticipation(item)" bottom>
+            <template v-slot:activator="{ on }">
+              <v-icon
+                  class="mr-2 action-button"
+                  color="blue"
+                  v-on=" on "
+                  data-cy="createAssessmentButton"
+                  @click="newAssessment(item)"
+              >fa-solid fa-pen-to-square</v-icon
+              >
+            </template>
+            <span>Create Assessment</span>
+          </v-tooltip>
         </template>
       </v-data-table>
       <enrollment-dialog
@@ -74,6 +87,8 @@ import Activity from '@/models/activity/Activity';
 import { show } from 'cli-cursor';
 import EnrollmentDialog from '@/views/member/EnrollmentDialog.vue';
 import Enrollment from '@/models/enrollment/Enrollment';
+import Assessment from '@/models/assessment/Assessment';
+import Participation from '@/models/participation/Participation';
 
 @Component({
   methods: { show },
@@ -84,11 +99,15 @@ import Enrollment from '@/models/enrollment/Enrollment';
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
   enrollments: Enrollment[] = [];
+  assessments: Assessment[] = [];
+  participations: Participation[] = [];
   search: string = '';
 
   currentEnrollment: Enrollment | null = null;
   currentActivity: Activity | null = null;
+  currentAssessment: Assessment | null = null;
   editEnrollmentDialog: boolean = false;
+  editAssessmentDialog: boolean = false;
 
   headers: object = [
     {
@@ -160,6 +179,8 @@ export default class VolunteerActivitiesView extends Vue {
       let userId = this.$store.getters.getUser.id;
       this.activities = await RemoteServices.getActivities();
       this.enrollments = await RemoteServices.getVolunteerEnrollments(userId);
+      this.participations = await RemoteServices.getVolunteerParticipations(userId);
+      this.assessments = await RemoteServices.getVolunteerAssessments(userId);
     } catch (error) {
       await this.$store.dispatch('error', error);
     }
@@ -222,6 +243,38 @@ export default class VolunteerActivitiesView extends Vue {
 
   hasEnrolled(activity: Activity) {
     return this.enrollments.some(enrollment => enrollment.activityId === activity.id);
+  }
+
+  newAssessment(activity: Activity) {
+    /* TODO */
+  }
+
+  async onSaveAssessment(assessment: Assessment, assessmentInstitutionId: number) {
+    /* TODO */
+  }
+
+  async onCloseAssessmentDialog() {
+    /* TODO */
+  }
+
+  isActivityterminated(activity: Activity) {
+    const currentDate = new Date();
+    const DeadlineDate = new Date(activity.applicationDeadline);
+    return currentDate > DeadlineDate;
+  }
+
+  isAssessingFirstTimeInstitution(activity: Activity) {
+    if (!this.assessments) {
+      return false;
+    }
+    return !this.assessments.some((a) => a.institutionId === activity.institution.id);
+  }
+
+  hasOneParticipation(activity: Activity) {
+    if (!this.participations) {
+      return false;
+    }
+    return this.participations.some((p) => p.activityId === activity.id);
   }
 }
 </script>
