@@ -76,6 +76,14 @@
         v-on:create-enrollment="onCreateEnrollment"
         v-on:close-enrollment-dialog="onCloseEnrollmentDialog"
       />
+      <assessment-dialog
+          v-if="currentAssessment && editAssessmentDialog"
+          v-model="editAssessmentDialog"
+          :assessment="currentAssessment"
+          :activity="currentActivity"
+          v-on:save-assessment="onSaveAssessment"
+          v-on:close-assessment-dialog="onCloseAssessmentDialog"
+      />
     </v-card>
   </div>
 </template>
@@ -87,6 +95,7 @@ import Activity from '@/models/activity/Activity';
 import { show } from 'cli-cursor';
 import EnrollmentDialog from '@/views/member/EnrollmentDialog.vue';
 import Enrollment from '@/models/enrollment/Enrollment';
+import AssessmentDialog from '@/views/volunteer/AssessmentDialog.vue';
 import Assessment from '@/models/assessment/Assessment';
 import Participation from '@/models/participation/Participation';
 
@@ -94,7 +103,9 @@ import Participation from '@/models/participation/Participation';
   methods: { show },
   components: {
     'enrollment-dialog': EnrollmentDialog,
+    'assessment-dialog': AssessmentDialog,
   },
+
 })
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
@@ -246,7 +257,9 @@ export default class VolunteerActivitiesView extends Vue {
   }
 
   newAssessment(activity: Activity) {
-    /* TODO */
+    this.currentAssessment = new Assessment();
+    this.currentActivity = activity;
+    this.editAssessmentDialog = true;
   }
 
   async onSaveAssessment(assessment: Assessment, assessmentInstitutionId: number) {
@@ -254,7 +267,9 @@ export default class VolunteerActivitiesView extends Vue {
   }
 
   async onCloseAssessmentDialog() {
-    /* TODO */
+    this.editAssessmentDialog = false;
+    this.currentAssessment = null;
+    this.currentActivity = null;
   }
 
   isActivityterminated(activity: Activity) {
