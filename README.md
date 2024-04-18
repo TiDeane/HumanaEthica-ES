@@ -5,9 +5,9 @@
 For this project (transferred from Gitlab), each group of six students was divided into three subgroups of two, and each subgroup was then tasked with implementing a functionality/feature, including tests, to the **HumanaEthica** website, provided by the faculty. The development was split into two sprints (_agile software development_), with the first being focused on the backend and the second being focused on the frontend. We were also tasked with creating stories and issues, along with using proper commit messages and merge requests.  
 
 Subgroups:
-- Enrollment (backend), Apply for an Activity (frontend): Tiago Deane (@TiDeane) and Afonso Matos (@afonsomatos3)
-- Participation (backend), Select Participant (frontend): Luís Calado (@LC1243) and Henrique Caroço (@HenriqueProj)
-- Assessment (backend),  Write Assessment (frontend): Artur Krystopchuk (@ArturKrys) and Pedro Gomes (@pedroasgomes)
+- Enrollment (backend), Apply for an Activity (frontend): Tiago Deane ([@TiDeane](https://github.com/TiDeane)) and Afonso Matos ([@afonsomatos3](https://github.com/afonsomatos3))
+- Participation (backend), Select Participant (frontend): Luís Calado ([@LC1243](https://github.com/LC1243)) and Henrique Caroço ([@HenriqueProj](https://github.com/HenriqueProj))
+- Assessment (backend),  Write Assessment (frontend): Artur Krystopchuk ([@ArturKrys](https://github.com/ArturKrys)) and Pedro Gomes ([@pedroasgomes](https://github.com/pedroasgomes))
 
 ---------
 
