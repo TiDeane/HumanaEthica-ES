@@ -1,10 +1,20 @@
 <h1 align="center">Humana Ética</h1>
 
+---------
+
+For this project (transferred from Gitlab), each group of six students was divided into three subgroups of two, and each subgroup was then tasked with implementing a functionality/feature, including tests, to the **HumanaEthica** website, provided by the faculty. The development was split into two sprints (_agile software development_), with the first being focused on the backend and the second being focused on the frontend. We were also tasked with creating stories and issues, along with using proper commit messages and merge requests.  
+
+Subgroups:
+- Enrollment (backend), Apply for an Activity (frontend): Tiago Deane (@TiDeane) and Afonso Matos (@afonsomatos3)
+- Participation (backend), Select Participant (frontend): Luís Calado (@LC1243) and Henrique Caroço (@HenriqueProj)
+- Assessment (backend),  Write Assessment (frontend): Artur Krystopchuk (@ArturKrys) and Pedro Gomes (@pedroasgomes)
+
+---------
+
 <p align="center">
   <a href="#about">About</a> •
   <a href="#technologies">Technologies</a> •
   <a href="#installation">Installation</a> •
-  <a href="#contributing">Contributing</a> •
   <a href="#license">License</a>
 </p>
 
@@ -101,10 +111,6 @@ An easy way to obtain a working development environment is to use the _developme
 The [following video](https://www.youtube.com/watch?v=ISNCrQ1r-Nw) shows how to setup the dev container using IDE IntelliJ IDEA (Ultimate Edition).
 
 [![How to setup HumanaEthica in IntelliJ using a dev container](https://img.youtube.com/vi/ISNCrQ1r-Nw/mqdefault.jpg)](https://www.youtube.com/embed/ISNCrQ1r-Nw?si=1WeDwCsBdrr5OL5k)
-
-# Contributing
-
-Your contributions are always welcome!
 
 # License
 
